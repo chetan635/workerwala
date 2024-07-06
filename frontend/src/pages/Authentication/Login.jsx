@@ -9,9 +9,12 @@ import {
   Button,
   InputGroup,
   useToast,
+  IconButton,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 export default function Login() {
   const toast = useToast();
@@ -23,14 +26,6 @@ export default function Login() {
 
   const handleClick = () => setShow(!show);
 
-  const handleUsernameChange = (e) => {
-    setUserName(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
   // Method to handle submit form changes for login
   const handleSubmit = () => {
     if (userName === "") {
@@ -39,9 +34,9 @@ export default function Login() {
         title: `Please enter valid user name`,
         status: "error",
         isClosable: true,
+        onCloseComplete: () => setIsUserNameError(false),
       });
-    } else {
-      setIsUserNameError(false);
+      return;
     }
 
     if (password === "") {
@@ -50,9 +45,9 @@ export default function Login() {
         title: `please enter valid password`,
         status: "error",
         isClosable: true,
+        onCloseComplete: () => setIsPasswordError(false),
       });
-    } else {
-      setIsPasswordError(false);
+      return;
     }
 
     if (userName != "" && password != "") {
@@ -70,14 +65,19 @@ export default function Login() {
         <div className="login_form flex-c flex-dir-c">
           <div className="heading">
             <Heading>Login to Your Account </Heading>
-            <p>Don't have account, Create Account</p>
+            <p>
+              Don't have account,{" "}
+              <ChakraLink color="teal.500" as={ReactRouterLink} to="/signUp">
+                Create Account
+              </ChakraLink>{" "}
+            </p>
           </div>
           <FormControl>
             <FormLabel>User Name</FormLabel>
             <Input
               isInvalid={isUserNameError}
               errorBorderColor="crimson"
-              onChange={(e) => handleUsernameChange(e)}
+              onChange={(e) => setUserName(e.target.value)}
               value={userName}
               variant="filled"
               placeholder="User Name"
@@ -91,13 +91,13 @@ export default function Login() {
                 pr="4.5rem"
                 variant="filled"
                 type={show ? "text" : "password"}
-                onChange={(e) => handlePasswordChange(e)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Enter password"
                 id="password"
               />
               <InputRightElement width="4.5rem">
-                <Button h="1.75rem" size="sm" onClick={()=>handleClick()}>
+                <Button h="1.75rem" size="sm" onClick={() => handleClick()}>
                   {show ? "Hide" : "Show"}
                 </Button>
               </InputRightElement>
@@ -106,12 +106,37 @@ export default function Login() {
           <Button onClick={() => handleSubmit()} colorScheme="teal" size="lg">
             LOGIN
           </Button>
-          <Button
-            leftIcon={<Icon icon="flat-color-icons:google" />}
-            variant="solid"
-          >
-            Sign in with Google
-          </Button>
+          <div className="sign-up-options-heading">
+            or, Login with these services
+          </div>
+          <div className="icon_buttons flex-c-c">
+            <IconButton
+              isRound={true}
+              variant="solid"
+              colorScheme="gray"
+              aria-label="Done"
+              fontSize="25px"
+              icon={<Icon icon="flat-color-icons:google" />}
+            />
+            <IconButton
+              isRound={true}
+              variant="solid"
+              colorScheme="gray"
+              aria-label="Done"
+              fontSize="25px"
+              icon={<Icon icon="logos:facebook" />}
+            />
+            <IconButton
+              isRound={true}
+              variant="solid"
+              colorScheme="gray"
+              aria-label="Done"
+              fontSize="25px"
+              icon={
+                <Icon icon="fa6-brands:x-twitter" style={{ color: "black" }} />
+              }
+            />
+          </div>
         </div>
       </div>
     </div>

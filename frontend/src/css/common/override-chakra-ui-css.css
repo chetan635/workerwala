@@ -1,0 +1,8 @@
+/* Overriden css of the chakra UI for projects use case */
+.chakra-heading{
+    padding: 10px 0;
+}
+
+.chakra-input{
+    margin-bottom: 10px;
+}

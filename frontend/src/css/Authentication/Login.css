@@ -18,7 +18,7 @@
     height: 100%;
     width: 100%;
     padding: 1rem;
-    gap: 40px;
+    gap: 30px;
 }
 
 .chakra-heading{
@@ -28,3 +28,11 @@
 .main-heading{
     padding: 20px !important;
 }
+
+.sign-up-options-heading {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
