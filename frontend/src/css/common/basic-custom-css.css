@@ -1,0 +1,64 @@
+/* Common class for display, justify-content, align-items */
+.flex-c-c{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-sb-c{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-sa-c{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.flex-se-c{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/* Common class for display, justify-content */
+.flex-c{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-sb{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-sa{
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-se{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* common css for justify content */
+.flex-dir-c{
+    flex-direction: column;
+}
+
+.flex-dir-r{
+    flex-direction: row;
+}
+
+/* common for only flex */
+.flex{
+    display: flex;
+}
+
+.bold{
+    font-weight: bold;
+}
+
