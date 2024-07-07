@@ -15,8 +15,10 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { Auth } from "../../lib/AuthProvider";
 
 export default function Login() {
+  const auth = Auth();
   const toast = useToast();
   const [show, setShow] = useState(false);
   const [userName, setUserName] = useState("");
@@ -27,7 +29,7 @@ export default function Login() {
   const handleClick = () => setShow(!show);
 
   // Method to handle submit form changes for login
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (userName === "") {
       setIsUserNameError(true);
       toast({
@@ -52,6 +54,18 @@ export default function Login() {
 
     if (userName != "" && password != "") {
       // Do some login related API calls
+      try {
+        await auth.loginUser({
+          username: userName,
+          password: password,
+        });
+      } catch (error) {
+        toast({
+          title: `Something went wrong, try logging again`,
+          status: "error",
+          isClosable: true,
+        });
+      }
 
       // Reset the userName and passowd
       setUserName("");

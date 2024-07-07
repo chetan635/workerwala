@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { Auth } from "../../lib/AuthProvider";
 
 export default function SignUp() {
   const toast = useToast();
@@ -28,12 +29,20 @@ export default function SignUp() {
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [isConfirmPasswordError, setIsConfirmPasswordError] = useState(false);
+  const auth = Auth();
 
   const handleClick = () => setShow(!show);
   const handleConfirmPassShowClick = () => setShowConfirmPass(!showConfirmPass);
 
+  function resetForm() {
+    setUserName("");
+    setPassword("");
+    setEmail("");
+    setConfirmPassword("");
+  }
+
   // Method to handle submit form changes for signup
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (email === "" || email.includes("@") == false) {
       setIsEmailError(true);
       toast({
@@ -84,13 +93,36 @@ export default function SignUp() {
       email != "" &&
       confirmPassword != ""
     ) {
-      // Do some signup related API calls
+      // API Request to the "/auth/register" route in backend to register the user.
+      try {
+        const signUpResponse = await auth.SignUpUser({
+          username: userName,
+          password: password,
+          email: email,
+          role: "user",
+        });
+        if (signUpResponse.status == "success") {
+          toast({
+            title: signUpResponse.message,
+            status: "success",
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: signUpResponse.message,
+            status: "error",
+            isClosable: true,
+          });
+        }
+      } catch (error) {
+        toast({
+          title: `Something went wrong while creating the accout, Please retry`,
+          status: "error",
+          isClosable: true,
+        });
+      }
 
-      // Reset the userName and passowd
-      setUserName("");
-      setPassword("");
-      setEmail("");
-      setConfirmPassword("");
+      resetForm();
     }
   };
   return (
@@ -157,7 +189,7 @@ export default function SignUp() {
                   errorBorderColor="crimson"
                   pr="4.5rem"
                   variant="filled"
-                  type={show ? "text" : "password"}
+                  type={showConfirmPass ? "text" : "password"}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   value={confirmPassword}
                   placeholder="Confirm password"
