@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authConstants } from "../constants/AuthConstants";
 import { useToast } from "@chakra-ui/react";
@@ -11,6 +11,10 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("_Authentication_app_react_Token") || ""
+  );
+
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem("_Authentication_app_react_Refresh_Token") || ""
   );
 
   /**
@@ -45,9 +49,9 @@ const AuthProvider = ({ children }) => {
 
   /**
    * Method to Login the user to the workerwala.
-   * 
+   *
    * @param {*} loginData  Contains the userName and password to login the user to the workerWala.
-   * @returns  
+   * @returns
    */
   const loginUser = async (loginData) => {
     try {
@@ -75,18 +79,24 @@ const AuthProvider = ({ children }) => {
 
       if (loginResponse != null && loginResponse.status == "success") {
         setUser(loginResponse.user);
-        setAccessToken(loginResponse.message);
-        
-        // Set Access token in local storage for user authentication
+        setAccessToken(loginResponse.accessToken);
+        setRefreshToken(loginResponse.refreshToken);
+
+        // Set Access token and refresh token  in local storage for user authentication
         localStorage.setItem(
           "_Authentication_app_react_Token",
-          loginResponse.message
+          loginResponse.accessToken
+        );
+
+        localStorage.setItem(
+          "_Authentication_app_react_Refresh_Token",
+          loginResponse.refreshToken
         );
         navigate("/");
         return null;
       } else if (loginResponse.status == "failure") {
         toast({
-          title: loginResponse.message,
+          title: "Authentication failed due to some reason",
           status: "error",
           isClosable: true,
         });
@@ -97,13 +107,60 @@ const AuthProvider = ({ children }) => {
   };
 
   /**
+   * Method to Refresh the JWT token for user Authentication.
+   *
+   */
+  const refreshTokenData = async() => {
+    const tokenRefreshData = await fetch(
+      `${authConstants.dataBaseServer}/auth/refresh`,
+      {
+        // Adding method types
+        method: "POST",
+        mode: "cors",
+
+        // Adding body content to send
+        body: JSON.stringify({
+          refreshToken: refreshToken,
+        }),
+
+        // Adding headers to the request
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Accept: "*",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .catch(() => logoutUser());
+
+    setAccessToken(tokenRefreshData.accessToken);
+    localStorage.setItem(
+      "_Authentication_app_react_Token",
+      tokenRefreshData.accessToken
+    );
+  };
+
+  /**
+   * Refetch refresh token after regular interval
+   */
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      refreshTokenData();
+    }, 10 * 60 * 1000); // Refresh every 10 minutes
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  /**
    * Method to end session and log user out
    * No request call since there is nothing to be handeled in backend.
    */
   const logoutUser = () => {
+    console.log("Are you here broo");
     setUser(null);
     setAccessToken("");
     localStorage.removeItem("_Authentication_app_react_Token");
+    localStorage.removeItem("_Authentication_app_react_Refresh_Token");
     navigate("/login");
   };
 
