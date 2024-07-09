@@ -100,6 +100,7 @@ export default function SignUp() {
           password: password,
           email: email,
           role: "user",
+          isEnabled: false
         });
         if (signUpResponse.status == "success") {
           toast({

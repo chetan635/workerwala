@@ -9,7 +9,7 @@ import {
   Button,
   InputGroup,
   useToast,
-  IconButton,
+  IconButton
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
@@ -44,7 +44,7 @@ export default function Login() {
     if (password === "") {
       setIsPasswordError(true);
       toast({
-        title: `please enter valid password`,
+        title: `Please enter valid password`,
         status: "error",
         isClosable: true,
         onCloseComplete: () => setIsPasswordError(false),

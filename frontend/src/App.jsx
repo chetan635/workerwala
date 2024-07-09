@@ -7,6 +7,7 @@ import SignUp from "./pages/Authentication/SignUp";
 import AuthProvider from "./lib/AuthProvider";
 import Home from "./pages/Home/Home";
 import PrivateRoute from "./lib/PrivateRoute";
+import VerifyEmail from "./pages/Authentication/VerifyEmail";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/signUp" element={<SignUp></SignUp>} />
+            <Route  path="/verify-email" element={<VerifyEmail></VerifyEmail>} >
+              <Route path=":verificationToken" element={<VerifyEmail />} />
+            </Route>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />
             </Route>
