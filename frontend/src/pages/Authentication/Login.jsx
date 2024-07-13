@@ -9,7 +9,7 @@ import {
   Button,
   InputGroup,
   useToast,
-  IconButton
+  IconButton,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
@@ -20,6 +20,7 @@ import { Auth } from "../../lib/AuthProvider";
 export default function Login() {
   const auth = Auth();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +31,7 @@ export default function Login() {
 
   // Method to handle submit form changes for login
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (userName === "") {
       setIsUserNameError(true);
       toast({
@@ -38,6 +40,7 @@ export default function Login() {
         isClosable: true,
         onCloseComplete: () => setIsUserNameError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -49,6 +52,7 @@ export default function Login() {
         isClosable: true,
         onCloseComplete: () => setIsPasswordError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -65,6 +69,7 @@ export default function Login() {
           status: "error",
           isClosable: true,
         });
+        setIsLoading(false);
       }
 
       // Reset the userName and passowd
@@ -117,7 +122,12 @@ export default function Login() {
               </InputRightElement>
             </InputGroup>
           </FormControl>
-          <Button onClick={() => handleSubmit()} colorScheme="teal" size="lg">
+          <Button
+            isLoading={isLoading}
+            onClick={() => handleSubmit()}
+            colorScheme="teal"
+            size="lg"
+          >
             LOGIN
           </Button>
           <div className="sign-up-options-heading">

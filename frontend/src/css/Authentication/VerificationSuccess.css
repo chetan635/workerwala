@@ -1,4 +1,4 @@
-.verify_email_body {
+.verification_success_body {
   height: 100vh;
   width: 100%;
   display: flex;
@@ -6,14 +6,21 @@
   align-items: center;
 }
 
-.verify_email_container {
+.verification_success_container {
   display: flex;
   align-items: center;
   flex-direction: column;
   box-shadow: 0px 0px 200px #d4d4d4;
-  height: 450px;
-  gap: 20px;
-  width: 750px;
+  height: 350px;
+  gap: 15px;
+  width: 550px;
   padding: 1.5rem;
   margin: 1rem;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

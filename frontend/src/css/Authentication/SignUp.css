@@ -37,3 +37,15 @@
   display: flex;
   justify-content: center;
 }
+
+.Weak {
+  color: red;
+}
+
+.Medium {
+  color: rgb(0, 76, 229);
+}
+
+.Strong {
+  color: rgb(0, 202, 0);
+}

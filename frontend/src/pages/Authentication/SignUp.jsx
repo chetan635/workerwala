@@ -13,13 +13,16 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
 
 export default function SignUp() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const [strength, setStrength] = useState("");
   const [show, setShow] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +33,36 @@ export default function SignUp() {
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [isConfirmPasswordError, setIsConfirmPasswordError] = useState(false);
   const auth = Auth();
+
+  // Evaluate the password strength:
+  function evaluatePasswordStrength(password) {
+    let score = 0;
+
+    if (!password) return "";
+
+    // Check password length
+    if (password.length > 8) score += 1;
+    // Contains lowercase
+    if (/[a-z]/.test(password)) score += 1;
+    // Contains uppercase
+    if (/[A-Z]/.test(password)) score += 1;
+    // Contains numbers
+    if (/\d/.test(password)) score += 1;
+    // Contains special characters
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+
+    switch (score) {
+      case 0:
+      case 1:
+      case 2:
+        return "Weak";
+      case 3:
+        return "Medium";
+      case 4:
+      case 5:
+        return "Strong";
+    }
+  }
 
   const handleClick = () => setShow(!show);
   const handleConfirmPassShowClick = () => setShowConfirmPass(!showConfirmPass);
@@ -43,6 +76,7 @@ export default function SignUp() {
 
   // Method to handle submit form changes for signup
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (email === "" || email.includes("@") == false) {
       setIsEmailError(true);
       toast({
@@ -51,6 +85,7 @@ export default function SignUp() {
         isClosable: true,
         onCloseComplete: () => setIsEmailError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -62,6 +97,7 @@ export default function SignUp() {
         isClosable: true,
         onCloseComplete: () => setIsUserNameError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -73,6 +109,7 @@ export default function SignUp() {
         isClosable: true,
         onCloseComplete: () => setIsPasswordError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -84,6 +121,7 @@ export default function SignUp() {
         isClosable: true,
         onCloseComplete: () => setIsConfirmPasswordError(false),
       });
+      setIsLoading(false);
       return;
     }
 
@@ -100,7 +138,7 @@ export default function SignUp() {
           password: password,
           email: email,
           role: "user",
-          isEnabled: false
+          isEnabled: false,
         });
         if (signUpResponse.status == "success") {
           toast({
@@ -108,12 +146,14 @@ export default function SignUp() {
             status: "success",
             isClosable: true,
           });
+          navigate("/verify-email", { state: email });
         } else {
           toast({
             title: signUpResponse.message,
             status: "error",
             isClosable: true,
           });
+          setIsLoading(false);
         }
       } catch (error) {
         toast({
@@ -121,6 +161,7 @@ export default function SignUp() {
           status: "error",
           isClosable: true,
         });
+        setIsLoading(false);
       }
 
       resetForm();
@@ -164,6 +205,7 @@ export default function SignUp() {
                 id="userName"
               />
               <FormLabel>Password</FormLabel>
+              <small className={strength}>{strength}</small>
               <InputGroup size="md">
                 <Input
                   isInvalid={isPasswordError}
@@ -171,7 +213,10 @@ export default function SignUp() {
                   pr="4.5rem"
                   variant="filled"
                   type={show ? "text" : "password"}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setStrength(evaluatePasswordStrength(e.target.value));
+                  }}
                   value={password}
                   placeholder="Enter password"
                   id="password"
@@ -182,7 +227,6 @@ export default function SignUp() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup size="md">
                 <Input
@@ -207,7 +251,12 @@ export default function SignUp() {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Button onClick={() => handleSubmit()} colorScheme="teal" size="lg">
+            <Button
+              isLoading={isloading}
+              onClick={() => handleSubmit()}
+              colorScheme="teal"
+              size="lg"
+            >
               SIGN UP
             </Button>
             <div className="sign-up-options-heading">
