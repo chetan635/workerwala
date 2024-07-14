@@ -20,16 +20,16 @@ export default function VerificationFail() {
           <div className="content">
             <p>
               Sorry, We are having trouble verifing your
-              account
+              account, or incorrect link
             </p>
             <p>Please try again with different account.</p>
           </div>
           <Button
             onClick={() => handleClick()}
-            colorScheme="teal"
+            colorScheme="red"
             variant="solid"
           >
-            Continue
+            Back to login
           </Button>
         </div>
       </div>

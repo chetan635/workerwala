@@ -9,13 +9,12 @@ import {
   Button,
   InputGroup,
   useToast,
-  IconButton,
 } from "@chakra-ui/react";
-import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
+import WorkerWalaLogo from "../../components/common/WorkerWalaLogo";
 
 export default function Login() {
   const auth = Auth();
@@ -65,7 +64,7 @@ export default function Login() {
         });
       } catch (error) {
         toast({
-          title: `Something went wrong, try logging again`,
+          title: `Authentication failed due to reason: ${error}`,
           status: "error",
           isClosable: true,
         });
@@ -80,10 +79,11 @@ export default function Login() {
 
   return (
     <div className="login_body">
-      <div className="login_container flex flex-r">
+      <div className="login_container flex flex-r flex-dir-c">
+        <WorkerWalaLogo />
         <div className="login_form flex-c flex-dir-c">
           <div className="heading">
-            <Heading>Login to Your Account </Heading>
+            <Heading size="md">Login to Your Account </Heading>
             <p>
               Don't have account,{" "}
               <ChakraLink color="teal.500" as={ReactRouterLink} to="/signUp">
@@ -130,37 +130,6 @@ export default function Login() {
           >
             LOGIN
           </Button>
-          <div className="sign-up-options-heading">
-            or, Login with these services
-          </div>
-          <div className="icon_buttons flex-c-c">
-            <IconButton
-              isRound={true}
-              variant="solid"
-              colorScheme="gray"
-              aria-label="Done"
-              fontSize="25px"
-              icon={<Icon icon="flat-color-icons:google" />}
-            />
-            <IconButton
-              isRound={true}
-              variant="solid"
-              colorScheme="gray"
-              aria-label="Done"
-              fontSize="25px"
-              icon={<Icon icon="logos:facebook" />}
-            />
-            <IconButton
-              isRound={true}
-              variant="solid"
-              colorScheme="gray"
-              aria-label="Done"
-              fontSize="25px"
-              icon={
-                <Icon icon="fa6-brands:x-twitter" style={{ color: "black" }} />
-              }
-            />
-          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../css/Authentication/SignUp.css";
 import {
   Heading,
@@ -9,20 +9,27 @@ import {
   Button,
   InputGroup,
   useToast,
-  IconButton,
 } from "@chakra-ui/react";
-import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { Link as ReactRouterLink, useNavigate } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
+import evaluatePasswordStrength from "../../utils/EvaluatePassword.js";
+import Loading from "../../components/common/Loading.jsx";
+import { authConstants } from "../../constants/AuthConstants.jsx";
+import WorkerWalaLogo from "../../components/common/WorkerWalaLogo.jsx";
 
 export default function SignUp() {
+  // Declearing the hooks.
   const toast = useToast();
   const navigate = useNavigate();
   const [strength, setStrength] = useState("");
+  const [isAvailable, setIsAvailable] = useState(null);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(null);
   const [show, setShow] = useState(false);
   const [isloading, setIsLoading] = useState(false);
+  const [isLoadingState, setIsLoadingState] = useState(false);
+  const [isEmailLoadingState, setIsEmailLoadingState] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -34,38 +41,98 @@ export default function SignUp() {
   const [isConfirmPasswordError, setIsConfirmPasswordError] = useState(false);
   const auth = Auth();
 
-  // Evaluate the password strength:
-  function evaluatePasswordStrength(password) {
-    let score = 0;
-
-    if (!password) return "";
-
-    // Check password length
-    if (password.length > 8) score += 1;
-    // Contains lowercase
-    if (/[a-z]/.test(password)) score += 1;
-    // Contains uppercase
-    if (/[A-Z]/.test(password)) score += 1;
-    // Contains numbers
-    if (/\d/.test(password)) score += 1;
-    // Contains special characters
-    if (/[^A-Za-z0-9]/.test(password)) score += 1;
-
-    switch (score) {
-      case 0:
-      case 1:
-      case 2:
-        return "Weak";
-      case 3:
-        return "Medium";
-      case 4:
-      case 5:
-        return "Strong";
-    }
-  }
-
   const handleClick = () => setShow(!show);
   const handleConfirmPassShowClick = () => setShowConfirmPass(!showConfirmPass);
+
+  // Debounce function to limit the number of API calls
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  // Function to check username availability
+  const checkUsernameAvailability = async (userName) => {
+    if (userName.trim() === "") {
+      setIsAvailable(null);
+      setIsLoadingState(null);
+      return;
+    }
+    setIsLoadingState(true);
+    try {
+      const response = await fetch(
+        `${authConstants.dataBaseServer}/auth/check-username?username=${userName}`,
+        {
+          method: "GET",
+          mode: "cors",
+
+          // Adding headers to the login request
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Accept: "*",
+          },
+        }
+      ).then((res) => res.json());
+
+      setIsAvailable(!response.data);
+    } catch (error) {
+      setIsAvailable(false);
+    } finally {
+      setIsLoadingState(false);
+    }
+  };
+
+  // Function to check Email availability
+  const checkEmailAvailability = async (email) => {
+    if (email.trim() === "") {
+      setIsEmailAvailable(null);
+      setIsEmailLoadingState(false);
+      return;
+    }
+    if (!email.includes("@")) {
+      setIsEmailAvailable(null);
+      return;
+    }
+    setIsEmailLoadingState(true);
+    try {
+      const response = await fetch(
+        `${authConstants.dataBaseServer}/auth/check-useremail?email=${email}`,
+        {
+          method: "GET",
+          mode: "cors",
+
+          // Adding headers to the login request
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Accept: "*",
+          },
+        }
+      ).then((res) => res.json());
+
+      setIsEmailAvailable(!response.data);
+    } catch (error) {
+      setIsEmailAvailable(false);
+    } finally {
+      setIsEmailLoadingState(false);
+    }
+  };
+
+  // Debounced version of the check function
+  const debouncedCheckUserName = debounce(checkUsernameAvailability, 500);
+
+  const debouncedCheckEmail = debounce(checkEmailAvailability, 500);
+
+  // Effect to trigger the username check
+  useEffect(() => {
+    debouncedCheckUserName(userName);
+  }, [userName]);
+
+  // Effect to trigger the username check
+  useEffect(() => {
+    debouncedCheckEmail(email);
+  }, [email]);
 
   function resetForm() {
     setUserName("");
@@ -170,10 +237,11 @@ export default function SignUp() {
   return (
     <div>
       <div className="signup_body">
-        <div className="signup_container flex flex-r">
+        <div className="signup_container flex flex-r flex-dir-c">
+          <WorkerWalaLogo />
           <div className="signup_form flex-c flex-dir-c">
             <div className="heading">
-              <Heading>Sign Up</Heading>
+              <Heading size="md">Sign Up</Heading>
               <p>
                 Already got an account ?{" "}
                 <ChakraLink color="teal.500" as={ReactRouterLink} to="/login">
@@ -182,7 +250,24 @@ export default function SignUp() {
               </p>
             </div>
             <FormControl>
-              <FormLabel>Email</FormLabel>
+              <div className="flex-sb-c">
+                <FormLabel>Email</FormLabel>
+                {isEmailLoadingState ? (
+                  <p>
+                    <small>
+                      <Loading />
+                    </small>
+                  </p>
+                ) : isEmailAvailable === null ? (
+                  <small></small>
+                ) : isEmailAvailable ? (
+                  <small className="available">Email is available!</small>
+                ) : (
+                  <small className="exists">
+                    Email Address already exists!!
+                  </small>
+                )}
+              </div>
               <Input
                 isInvalid={isEmailError}
                 errorBorderColor="crimson"
@@ -193,7 +278,22 @@ export default function SignUp() {
                 placeholder="Email"
                 id="email"
               />
-              <FormLabel>User Name</FormLabel>
+              <div className="flex-sb-c">
+                <FormLabel>User Name</FormLabel>
+                {isLoadingState ? (
+                  <p>
+                    <small>
+                      <Loading />
+                    </small>
+                  </p>
+                ) : isAvailable === null ? (
+                  <small></small>
+                ) : isAvailable ? (
+                  <small className="available">Username is available!</small>
+                ) : (
+                  <small className="exists">Username already exists!!</small>
+                )}
+              </div>
               <Input
                 isInvalid={isUserNameError}
                 errorBorderColor="crimson"
@@ -204,8 +304,12 @@ export default function SignUp() {
                 placeholder="User Name"
                 id="userName"
               />
-              <FormLabel>Password</FormLabel>
-              <small className={strength}>{strength}</small>
+              <div className="passwordBlock flex-sa-c">
+                <FormLabel>Password</FormLabel>
+                <small className={strength}>
+                  <b>{strength}</b>
+                </small>
+              </div>
               <InputGroup size="md">
                 <Input
                   isInvalid={isPasswordError}
@@ -259,40 +363,6 @@ export default function SignUp() {
             >
               SIGN UP
             </Button>
-            <div className="sign-up-options-heading">
-              or, Sign up with these services
-            </div>
-            <div className="icon_buttons flex-c-c">
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme="gray"
-                aria-label="Done"
-                fontSize="25px"
-                icon={<Icon icon="flat-color-icons:google" />}
-              />
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme="gray"
-                aria-label="Done"
-                fontSize="25px"
-                icon={<Icon icon="logos:facebook" />}
-              />
-              <IconButton
-                isRound={true}
-                variant="solid"
-                colorScheme="gray"
-                aria-label="Done"
-                fontSize="25px"
-                icon={
-                  <Icon
-                    icon="fa6-brands:x-twitter"
-                    style={{ color: "black" }}
-                  />
-                }
-              />
-            </div>
           </div>
         </div>
       </div>

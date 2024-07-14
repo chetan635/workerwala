@@ -95,14 +95,10 @@ const AuthProvider = ({ children }) => {
         navigate("/");
         return null;
       } else if (loginResponse.status == "failure") {
-        toast({
-          title: "Authentication failed due to some reason",
-          status: "error",
-          isClosable: true,
-        });
+        throw loginResponse,message;
       }
     } catch (error) {
-      throw error;
+      throw "Something went wrong!";
     }
   };
 
@@ -156,7 +152,6 @@ const AuthProvider = ({ children }) => {
    * No request call since there is nothing to be handeled in backend.
    */
   const logoutUser = () => {
-    console.log("Are you here broo");
     setUser(null);
     setAccessToken("");
     localStorage.removeItem("_Authentication_app_react_Token");
