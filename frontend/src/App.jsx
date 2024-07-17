@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import PrivateRoute from "./lib/PrivateRoute";
 import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
+import ForgotPassword from "./components/Authentication/ForgotPassword";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/signUp" element={<SignUp></SignUp>} />
+            <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/email-redirect" element={<EmailRedirect />}>
               <Route path=":verificationToken" element={<EmailRedirect />} />

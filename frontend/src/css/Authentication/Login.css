@@ -35,4 +35,14 @@
     width: 100%;
     display: flex;
     justify-content: center;
-  }
+}
+
+.forgot-password-link{
+    width: 100%;
+    justify-content: flex-end;
+    color: teal;
+}
+
+.forgot-password-link:hover{
+    color: rgb(0, 51, 51);
+}

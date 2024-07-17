@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Link, Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
 import WorkerWalaLogo from "../../components/common/WorkerWalaLogo";
@@ -122,6 +122,7 @@ export default function Login() {
               </InputRightElement>
             </InputGroup>
           </FormControl>
+          <Link className="flex forgot-password-link" to="/forgot-password" >Forgot password</Link>
           <Button
             isLoading={isLoading}
             onClick={() => handleSubmit()}
