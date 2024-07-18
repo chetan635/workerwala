@@ -30,11 +30,11 @@ export default function ForgotPassword() {
         </p>
         <InputGroup>
           <InputLeftElement pointerEvents="none">
-            <EmailIcon color="gray.300" />
+            <EmailIcon color="gray.500" />
           </InputLeftElement>
-          <Input type="tel" placeholder="Email" />
+          <Input type="email" placeholder="Email" />
         </InputGroup>
-        <Button className="button" colorScheme="green">LOGIN</Button>
+        <Button className="button" colorScheme="green">Submit</Button>
         <small className="back-to-login">
             <Link to="/login"><ChevronLeftIcon color="teal"/> Back to Login</Link>
         </small>

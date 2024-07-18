@@ -10,6 +10,7 @@ import PrivateRoute from "./lib/PrivateRoute";
 import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
+import ChangePassword from "./components/Authentication/ChangePassword";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/email-redirect" element={<EmailRedirect />}>
               <Route path=":verificationToken" element={<EmailRedirect />} />
+            </Route>
+            <Route path="/change-password" element={<ChangePassword />}>
+              <Route path=":verificationToken" element={<ChangePassword />} />
             </Route>
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />

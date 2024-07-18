@@ -18,6 +18,7 @@ import evaluatePasswordStrength from "../../utils/EvaluatePassword.js";
 import Loading from "../../components/common/Loading.jsx";
 import { authConstants } from "../../constants/AuthConstants.jsx";
 import WorkerWalaLogo from "../../components/common/WorkerWalaLogo.jsx";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 export default function SignUp() {
   // Declearing the hooks.
@@ -327,7 +328,7 @@ export default function SignUp() {
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={() => handleClick()}>
-                    {show ? "Hide" : "Show"}
+                    {show ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -350,7 +351,7 @@ export default function SignUp() {
                     size="sm"
                     onClick={() => handleConfirmPassShowClick()}
                   >
-                    {showConfirmPass ? "Hide" : "Show"}
+                    {showConfirmPass ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
