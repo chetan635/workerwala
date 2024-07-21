@@ -16,9 +16,9 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
 import evaluatePasswordStrength from "../../utils/EvaluatePassword.js";
 import Loading from "../../components/common/Loading.jsx";
-import { authConstants } from "../../constants/AuthConstants.jsx";
 import WorkerWalaLogo from "../../components/common/WorkerWalaLogo.jsx";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { makeApiCallWithoutBody } from "../../utils/ApiCallService.js";
 
 export default function SignUp() {
   // Declearing the hooks.
@@ -29,7 +29,7 @@ export default function SignUp() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(null);
   const [show, setShow] = useState(false);
   const [isloading, setIsLoading] = useState(false);
-  const [isLoadingState, setIsLoadingState] = useState(false);
+  const [isUserNameLoadingState, setIsUserNameLoadingState] = useState(false);
   const [isEmailLoadingState, setIsEmailLoadingState] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [userName, setUserName] = useState("");
@@ -58,30 +58,24 @@ export default function SignUp() {
   const checkUsernameAvailability = async (userName) => {
     if (userName.trim() === "") {
       setIsAvailable(null);
-      setIsLoadingState(null);
+      setIsUserNameLoadingState(null);
       return;
     }
-    setIsLoadingState(true);
+    setIsUserNameLoadingState(true);
     try {
-      const response = await fetch(
-        `${authConstants.dataBaseServer}/auth/check-username?username=${userName}`,
-        {
-          method: "GET",
-          mode: "cors",
-
-          // Adding headers to the login request
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Accept: "*",
-          },
-        }
+      /**
+       * API call to verify if user name already exists
+       */
+      const response = await makeApiCallWithoutBody(
+        "GET",
+        `auth/check-username?username=${userName}`
       ).then((res) => res.json());
 
       setIsAvailable(!response.data);
     } catch (error) {
       setIsAvailable(false);
     } finally {
-      setIsLoadingState(false);
+      setIsUserNameLoadingState(false);
     }
   };
 
@@ -98,18 +92,12 @@ export default function SignUp() {
     }
     setIsEmailLoadingState(true);
     try {
-      const response = await fetch(
-        `${authConstants.dataBaseServer}/auth/check-useremail?email=${email}`,
-        {
-          method: "GET",
-          mode: "cors",
-
-          // Adding headers to the login request
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Accept: "*",
-          },
-        }
+      /**
+       * API call to verify if email already exists
+       */
+      const response = await makeApiCallWithoutBody(
+        "GET",
+        `auth/check-useremail?email=${email}`
       ).then((res) => res.json());
 
       setIsEmailAvailable(!response.data);
@@ -281,7 +269,7 @@ export default function SignUp() {
               />
               <div className="flex-sb-c">
                 <FormLabel>User Name</FormLabel>
-                {isLoadingState ? (
+                {isUserNameLoadingState ? (
                   <p>
                     <small>
                       <Loading />

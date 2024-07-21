@@ -25,11 +25,11 @@
   padding: 20px !important;
 }
 
-.available{
+.available {
   color: rgb(0, 181, 0);
 }
 
-.exists{
+.exists {
   color: red;
 }
 
@@ -46,7 +46,7 @@
   justify-content: center;
 }
 
-.passwordBlock{
+.passwordBlock {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -62,5 +62,13 @@
 }
 
 .Strong {
+  color: #319795;
+}
+
+.Very_Strong{
   color: rgb(0, 202, 0);
+}
+
+.Very_Weak{
+  color: red;
 }

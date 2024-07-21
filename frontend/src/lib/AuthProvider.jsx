@@ -1,12 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authConstants } from "../constants/AuthConstants";
-import { useToast } from "@chakra-ui/react";
+import { makeApiCall } from "../utils/ApiCallService";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const toast = useToast();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(
@@ -23,27 +21,15 @@ const AuthProvider = ({ children }) => {
    * @param data Containing the details like username, password, and email address to register the user
    */
   const SignUpUser = async (data) => {
-    const signUpResponse = await fetch(
-      `${authConstants.dataBaseServer}/auth/register`,
-      {
-        method: "POST",
-        mode: "cors",
-
-        // Adding body for the Post Request
-        body: JSON.stringify({
-          username: data.username,
-          password: data.password,
-          email: data.email,
-          role: data.role,
-        }),
-
-        // Adding headers to the request
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "*",
-        },
-      }
-    ).then((res) => res.json());
+    /**
+     * API call to iniciate SignUp process
+     */
+    const signUpResponse = await makeApiCall("POST", "auth/register", {
+      username: data.username,
+      password: data.password,
+      email: data.email,
+      role: data.role,
+    }).then((res) => res.json());
     return signUpResponse;
   };
 
@@ -55,25 +41,13 @@ const AuthProvider = ({ children }) => {
    */
   const loginUser = async (loginData) => {
     try {
-      const response = await fetch(
-        `${authConstants.dataBaseServer}/auth/login`,
-        {
-          method: "POST",
-          mode: "cors",
-
-          //Adding Body to the request:
-          body: JSON.stringify({
-            username: loginData.username,
-            password: loginData.password,
-          }),
-
-          // Adding headers to the login request
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Accept: "*",
-          },
-        }
-      );
+      /**
+       * API call for login process
+       */
+      const response = await makeApiCall("POST", "auth/login", {
+        username: loginData.username,
+        password: loginData.password,
+      });
 
       const loginResponse = await response.json();
 
@@ -95,7 +69,7 @@ const AuthProvider = ({ children }) => {
         navigate("/");
         return null;
       } else if (loginResponse.status == "failure") {
-        throw loginResponse,message;
+        throw (loginResponse, message);
       }
     } catch (error) {
       throw "Something went wrong!";
@@ -104,28 +78,11 @@ const AuthProvider = ({ children }) => {
 
   /**
    * Method to Refresh the JWT token for user Authentication.
-   *
    */
-  const refreshTokenData = async() => {
-    const tokenRefreshData = await fetch(
-      `${authConstants.dataBaseServer}/auth/refresh`,
-      {
-        // Adding method types
-        method: "POST",
-        mode: "cors",
-
-        // Adding body content to send
-        body: JSON.stringify({
-          refreshToken: refreshToken,
-        }),
-
-        // Adding headers to the request
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "*",
-        },
-      }
-    )
+  const refreshTokenData = async () => {
+    const tokenRefreshData = await makeApiCall("POST", "auth/refresh", {
+      refreshToken: refreshToken,
+    })
       .then((res) => res.json())
       .catch(() => logoutUser());
 

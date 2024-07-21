@@ -9,7 +9,7 @@ import Home from "./pages/Home/Home";
 import PrivateRoute from "./lib/PrivateRoute";
 import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
-import ForgotPassword from "./components/Authentication/ForgotPassword";
+import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ChangePassword from "./components/Authentication/ChangePassword";
 
 function App() {

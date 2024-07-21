@@ -1,35 +1,82 @@
-
 /**
  * Method to Evaluate how strong is the password based on some basic rules.
- * 
- * @param {*password} password which is provided by user 
+ *
+ * @param {*password} password which is provided by user
  * @returns if password is weak, medium or strong.
  */
-export default function evaluatePasswordStrength(password){
-    let score = 0;
+export default function evaluatePasswordStrength(password) {
+  if (!password) return "";
 
-    if (!password) return "";
+  let score = 0;
+  let lengthCriteria = /.{12,}/; // Increased length requirement
+  let upperCaseCriteria = /[A-Z]/;
+  let lowerCaseCriteria = /[a-z]/;
+  let numberCriteria = /[0-9]/;
+  let specialCharCriteria = /[!@#$%^&*(),.?":{}|<>]/;
 
-    // Check password length
-    if (password.length > 8) score += 1;
-    // Contains lowercase
-    if (/[a-z]/.test(password)) score += 1;
-    // Contains uppercase
-    if (/[A-Z]/.test(password)) score += 1;
-    // Contains numbers
-    if (/\d/.test(password)) score += 1;
-    // Contains special characters
-    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+  // Length criteria
+  if (lengthCriteria.test(password)) {
+    score += 2;
+  } else if (/.{8,11}/.test(password)) {
+    score += 1;
+  }
 
-    switch (score) {
-      case 0:
-      case 1:
-      case 2:
-        return "Weak";
-      case 3:
-        return "Medium";
-      case 4:
-      case 5:
-        return "Strong";
-    }
+  // Upper case criteria
+  if (upperCaseCriteria.test(password)) {
+    score += 1;
+  }
+
+  // Lower case criteria
+  if (lowerCaseCriteria.test(password)) {
+    score += 1;
+  }
+
+  // Number criteria
+  if (numberCriteria.test(password)) {
+    score += 1;
+  }
+
+  // Special character criteria
+  if (specialCharCriteria.test(password)) {
+    score += 1;
+  }
+
+  // Check for sequences and repeated characters
+  let sequences = /(\d{3,}|[a-z]{3,}|[A-Z]{3,})/;
+  let repeats = /(\w)\1{2,}/;
+
+  if (sequences.test(password)) {
+    score -= 1;
+  }
+
+  if (repeats.test(password)) {
+    score -= 1;
+  }
+
+  // Check for common passwords (can be extended with a larger list)
+  let commonPasswords = [
+    "password",
+    "123456",
+    "123456789",
+    "12345678",
+    "12345",
+    "1234567",
+    "1234567890",
+    "qwerty",
+    "abc123",
+  ];
+  if (commonPasswords.includes(password.toLowerCase())) {
+    return "Very_Weak";
+  }
+
+  // Return the score
+  if (score >= 6) {
+    return "Very_Strong";
+  } else if (score >= 4) {
+    return "Strong";
+  } else if (score >= 2) {
+    return "Medium";
+  } else {
+    return "Weak";
+  }
 }

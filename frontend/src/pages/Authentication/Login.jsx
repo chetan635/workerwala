@@ -14,6 +14,7 @@ import { useState } from "react";
 import { Link, Link as ReactRouterLink } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import WorkerWalaLogo from "../../components/common/WorkerWalaLogo";
 
 export default function Login() {
@@ -56,8 +57,10 @@ export default function Login() {
     }
 
     if (userName != "" && password != "") {
-      // Do some login related API calls
       try {
+        /**
+         * Make API call to login user with provided credentials
+         */
         await auth.loginUser({
           username: userName,
           password: password,
@@ -117,12 +120,14 @@ export default function Login() {
               />
               <InputRightElement width="4.5rem">
                 <Button h="1.75rem" size="sm" onClick={() => handleClick()}>
-                  {show ? "Hide" : "Show"}
+                  {show ? <ViewIcon /> : <ViewOffIcon />}
                 </Button>
               </InputRightElement>
             </InputGroup>
           </FormControl>
-          <Link className="flex forgot-password-link" to="/forgot-password" >Forgot password</Link>
+          <Link className="flex forgot-password-link" to="/forgot-password">
+            Forgot password
+          </Link>
           <Button
             isLoading={isLoading}
             onClick={() => handleSubmit()}

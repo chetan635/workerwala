@@ -7,19 +7,27 @@ import {
   InputRightElement,
   Input,
   useToast,
+  FormLabel,
 } from "@chakra-ui/react";
 import forgotPasswordPreview from "../../assets/images/forgot-password-preview-2.png";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import "../../css/Authentication/ChangePassword.css";
+import { useNavigate, useParams } from "react-router-dom";
+import evaluatePasswordStrength from "../../utils/EvaluatePassword";
+import { makeApiCall } from "../../utils/ApiCallService.js";
 
 export default function ChangePassword() {
   const toast = useToast();
+  const [strength, setStrength] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordShow, setPasswordShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [isConfirmPasswordError, setIsConfirmPasswordError] = useState(false);
+  const { verificationToken } = useParams();
+  const navigate = useNavigate();
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -29,7 +37,7 @@ export default function ChangePassword() {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (password == "") {
       setIsPasswordError(true);
       toast({
@@ -58,14 +66,49 @@ export default function ChangePassword() {
         isClosable: true,
         onCloseComplete: () => setIsConfirmPasswordError(false),
       });
+      return;
     }
 
-    console.log(password);
-    console.log(confirmPassword);
+    setIsLoading(true);
+    /**
+     * Make the API call to change the password
+     */
+    const response = await makeApiCall("POST", "auth/change-password", {
+      token: verificationToken,
+      newPassword: password,
+    })
+      .then((res) => res.json())
+      .catch(() => {
+        toast({
+          title: "Something went wrong, please retry again.",
+          status: "error",
+          isClosable: true,
+        });
+        setIsLoading(false);
+        return;
+      });
+
+    if (response.status == "failure") {
+      toast({
+        title: response.message,
+        status: "error",
+        isClosable: true,
+      });
+      setIsLoading(false);
+      return;
+    }
+    toast({
+      title: response.message,
+      status: "success",
+      isClosable: true,
+    });
+    setIsLoading(false);
+    navigate("/login");
   };
 
   const handlePasswordShowClick = () => setPasswordShow(!passwordShow);
-  const handleConfirmPasswordShowClick = () => setConfirmPasswordShow(!confirmPasswordShow);
+  const handleConfirmPasswordShowClick = () =>
+    setConfirmPasswordShow(!confirmPasswordShow);
   return (
     <div>
       <div className="change-password-body">
@@ -82,6 +125,12 @@ export default function ChangePassword() {
           <p className="flex-c-c content">
             Please add new approprate password for your account
           </p>
+          <div className="passwordBlock flex-sa-c">
+            <FormLabel>Password</FormLabel>
+            <small className={strength}>
+              <b>{strength}</b>
+            </small>
+          </div>
           <InputGroup size="md">
             <Input
               isInvalid={isPasswordError}
@@ -91,17 +140,25 @@ export default function ChangePassword() {
               type={passwordShow ? "text" : "password"}
               onChange={(e) => {
                 handlePasswordChange(e);
+                setStrength(evaluatePasswordStrength(e.target.value));
               }}
               value={password}
               placeholder="New Password"
               id="password"
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={() => handlePasswordShowClick()}>
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={() => handlePasswordShowClick()}
+              >
                 {passwordShow ? <ViewIcon /> : <ViewOffIcon />}
               </Button>
             </InputRightElement>
           </InputGroup>
+          <div className="passwordBlock">
+            <FormLabel>Confirm Password</FormLabel>
+          </div>
           <InputGroup size="md">
             <Input
               isInvalid={isConfirmPasswordError}
@@ -114,15 +171,26 @@ export default function ChangePassword() {
               }}
               value={confirmPassword}
               placeholder="Confirm password"
-              id="password"
+              id="confirm password"
             />
             <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={() => handleConfirmPasswordShowClick()}>
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={() => handleConfirmPasswordShowClick()}
+              >
                 {confirmPasswordShow ? <ViewIcon /> : <ViewOffIcon />}
               </Button>
             </InputRightElement>
           </InputGroup>
-          <Button onClick={()=>{handleSubmit()}} className="button" colorScheme="green">
+          <Button
+            onClick={() => {
+              handleSubmit();
+            }}
+            isLoading={isLoading}
+            className="button"
+            colorScheme="green"
+          >
             Submit
           </Button>
         </div>

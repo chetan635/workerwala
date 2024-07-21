@@ -3,8 +3,8 @@ import "../../css/Authentication/VerifyEmail.css";
 import { useLocation } from "react-router-dom";
 import { Heading, Image, useToast, Button } from "@chakra-ui/react";
 import mailView from "../../assets/images/Email_verify_mail_2.png";
-import { authConstants } from "../../constants/AuthConstants";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
+import { makeApiCallWithoutBody } from "../../utils/ApiCallService";
 
 export default function VerifyEmail() {
   const location = useLocation();
@@ -14,16 +14,12 @@ export default function VerifyEmail() {
 
   const handleResendVerificationLink = async () => {
     setIsLoading(true);
-    const response = await fetch(
-      `${authConstants.dataBaseServer}/auth/resend-verification-link?email=${email}`,
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "*",
-        },
-      }
+    /**
+     * Make API call to resend the verification link to the user to verify email address
+     */
+    const response = await makeApiCallWithoutBody(
+      "POST",
+      `auth/resend-verification-link?email=${email}`
     ).then((res) => res.json());
 
     if (response.status == "success") {
@@ -33,7 +29,7 @@ export default function VerifyEmail() {
         isClosable: true,
       });
       setIsLoading(false);
-      return
+      return;
     }
     toast({
       title: `${response.message}`,
@@ -64,7 +60,10 @@ export default function VerifyEmail() {
             colorScheme="teal"
             size="lg"
           >
-            <p><Icon icon="mdi:email-resend" /></p> &nbsp; <span>Re-send link</span>
+            <p>
+              <Icon icon="mdi:email-resend" />
+            </p>{" "}
+            &nbsp; <span>Re-send link</span>
           </Button>
         ) : (
           ""

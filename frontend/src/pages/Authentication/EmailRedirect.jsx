@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { authConstants } from "../../constants/AuthConstants";
 import Loading from "../../components/common/Loading";
 import { useParams } from "react-router-dom";
 import VerificationFail from "../../components/Authentication/VerificationFail";
 import VerificationSuccess from "../../components/Authentication/VerificationSuccess";
+import { makeApiCallWithoutBody } from "../../utils/ApiCallService";
 
 export default function EmailRedirect() {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,17 +11,12 @@ export default function EmailRedirect() {
   const { verificationToken } = useParams();
 
   const verifyMail = async () => {
-    // Request to confirm the account
-    const emailVerification = await fetch(
-      `${authConstants.dataBaseServer}/auth/confirm-account?token=${verificationToken}`,
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "*",
-        },
-      }
+    /**
+     * Api Call to confirm the new created account
+     */
+    const emailVerification = await makeApiCallWithoutBody(
+      "POST",
+      `auth/confirm-account?token=${verificationToken}`
     ).then((res) => res.json());
 
     if (emailVerification.status == "success") {
