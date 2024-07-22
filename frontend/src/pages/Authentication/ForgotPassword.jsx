@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { EmailIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import forgotPasswordPreview from "../../assets/images/forgot-password-preview-2.png";
+import forgotPasswordPreview from "../../assets/images/forgot-password-preview-3.png";
 import "../../css/Authentication/ForgotPassword.css";
 import { Link } from "react-router-dom";
 import SentForgotPassLink from "../../components/Authentication/SentForgotPassLink.jsx";
@@ -64,7 +64,7 @@ export default function ForgotPassword() {
         {!isMailSentSuccessfully ? (
           <>
             <Image
-              height="130px"
+              height="170px"
               width="170px"
               src={forgotPasswordPreview}
               alt="forgot-password-preview"

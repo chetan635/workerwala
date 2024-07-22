@@ -233,7 +233,7 @@ export default function SignUp() {
               <Heading size="md">Sign Up</Heading>
               <p>
                 Already got an account ?{" "}
-                <ChakraLink color="teal.500" as={ReactRouterLink} to="/login">
+                <ChakraLink className="chakra-link" color="teal.500" as={ReactRouterLink} to="/login">
                   Login
                 </ChakraLink>{" "}
               </p>
@@ -295,8 +295,8 @@ export default function SignUp() {
               />
               <div className="passwordBlock flex-sa-c">
                 <FormLabel>Password</FormLabel>
-                <small className={strength}>
-                  <b>{strength}</b>
+                <small className={strength + " " + "strength"}>
+                  {strength != "" ? <b>Password is {strength}</b> : ""}
                 </small>
               </div>
               <InputGroup size="md">

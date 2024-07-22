@@ -89,7 +89,7 @@ export default function Login() {
             <Heading size="md">Login to Your Account </Heading>
             <p>
               Don't have account,{" "}
-              <ChakraLink color="teal.500" as={ReactRouterLink} to="/signUp">
+              <ChakraLink className="chakra-link" color="teal.500" as={ReactRouterLink} to="/signUp">
                 Create Account
               </ChakraLink>{" "}
             </p>

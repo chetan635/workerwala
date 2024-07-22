@@ -9,7 +9,7 @@ import {
   useToast,
   FormLabel,
 } from "@chakra-ui/react";
-import forgotPasswordPreview from "../../assets/images/forgot-password-preview-2.png";
+import forgotPasswordPreview from "../../assets/images/forgot-password-preview-3.png";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import "../../css/Authentication/ChangePassword.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -114,7 +114,7 @@ export default function ChangePassword() {
       <div className="change-password-body">
         <div className="flex-c flex-dir-c change-password-container">
           <Image
-            height="130px"
+            height="170px"
             width="170px"
             src={forgotPasswordPreview}
             alt="change-password-preview"
@@ -127,8 +127,8 @@ export default function ChangePassword() {
           </p>
           <div className="passwordBlock flex-sa-c">
             <FormLabel>Password</FormLabel>
-            <small className={strength}>
-              <b>{strength}</b>
+            <small className={strength + " " + "strength"}>
+              {strength != "" ? <b>Password is {strength}</b> : ""}
             </small>
           </div>
           <InputGroup size="md">
