@@ -13,8 +13,8 @@ export default function VerificationSuccess() {
     <div>
       <div className="verification_success_body">
         <div className="verification_success_container">
-          <Image boxSize="90px" src={verifySuccess} alt="mail" />
-          <Heading as="h3" size="lg">
+          <Image boxSize="65px" src={verifySuccess} alt="mail" />
+          <Heading as="h3" size="md">
             Email verification Successful
           </Heading>
           <div className="content">

@@ -114,8 +114,8 @@ export default function ChangePassword() {
       <div className="change-password-body">
         <div className="flex-c flex-dir-c change-password-container">
           <Image
-            height="170px"
-            width="170px"
+            height="130px"
+            width="130px"
             src={forgotPasswordPreview}
             alt="change-password-preview"
           />

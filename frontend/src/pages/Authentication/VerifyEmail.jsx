@@ -42,7 +42,7 @@ export default function VerifyEmail() {
   return (
     <div className="verify_email_body">
       <div className="verify_email_container">
-        <Image boxSize="350px" src={mailView} alt="mail" />
+        <Image width="250px" height="230px" src={mailView} alt="mail" />
         <Heading as="h3" size="md">
           Please verify your Email Address
         </Heading>

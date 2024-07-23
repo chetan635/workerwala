@@ -64,8 +64,8 @@ export default function ForgotPassword() {
         {!isMailSentSuccessfully ? (
           <>
             <Image
-              height="170px"
-              width="170px"
+              height="130px"
+              width="130px"
               src={forgotPasswordPreview}
               alt="forgot-password-preview"
             />

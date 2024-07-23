@@ -1,13 +1,13 @@
 import React from "react";
 import { Heading, Image } from "@chakra-ui/react";
-import forgotPasswordPreview from "../../assets/images/forgot-password-preview-2.png";
+import forgotPasswordPreview from "../../assets/images/forgot-password-preview-3.png";
 
 export default function SentForgotPassLink(data) {
   return (
     <div className="sentForgotpassLink-container flex-c-c flex-dir-c">
       <Image
         height="130px"
-        width="170px"
+        width="130px"
         src={forgotPasswordPreview}
         alt="forgot-password-preview"
       />
