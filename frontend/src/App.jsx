@@ -11,6 +11,8 @@ import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
 import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ChangePassword from "./components/Authentication/ChangePassword";
+import UserTypeChoice from "./pages/Authentication/UserTypeChoice";
+import SignUpAsWorkerWala from "./pages/Authentication/SignUpAsWorkerWala";
 
 function App() {
   return (
@@ -20,8 +22,16 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/signUp" element={<SignUp></SignUp>} />
-            <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword></ForgotPassword>}
+            />
             <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/choose-user-type" element={<UserTypeChoice />} />
+            <Route
+              path="/sign-up-as-workerwala"
+              element={<SignUpAsWorkerWala />}
+            />
             <Route path="/email-redirect" element={<EmailRedirect />}>
               <Route path=":verificationToken" element={<EmailRedirect />} />
             </Route>

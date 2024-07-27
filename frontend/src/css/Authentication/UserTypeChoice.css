@@ -1,0 +1,31 @@
+.user_type_choice_body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user_type_choice_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0px 0px 200px #d4d4d4;
+  height: 380px;
+  gap: 15px;
+  width: 550px;
+  padding: 1.5rem;
+  margin: 1rem;
+}
+
+.choose-card {
+  border: 2px solid #319795;
+  height: 160px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.selected {
+  background-color: #ddf8ff;
+}

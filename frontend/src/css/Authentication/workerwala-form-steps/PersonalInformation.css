@@ -1,0 +1,9 @@
+.personal_information_container {
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto-fill, 1fr));
+}
+
+.form-item-full {
+  grid-column: span 2;
+}
