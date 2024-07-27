@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/Authentication/SignUpAsWorkerWala.css";
 import {
   Box,
@@ -15,6 +15,7 @@ import PersonalInformation from "./workerwala-form-steps/PersonalInformation";
 export default function SignUpAsWorkerWala() {
   const [tabIndex, setTabIndex] = useState(0);
   const [step, setStep] = useState(0);
+  const [workerWalaInfo, setWorkerWalaInfo] = useState({});
 
   const handleTabsChange = (index) => {
     setTabIndex(index);
@@ -100,6 +101,8 @@ export default function SignUpAsWorkerWala() {
             <TabPanels>
               <TabPanel>
                 <PersonalInformation
+                  workerWalaInfo={workerWalaInfo}
+                  setWorkerWalaInfo={setWorkerWalaInfo}
                   step={step}
                   handleNextOrSubmit={handleNextOrSubmit}
                   handlePrevClick={handlePrevClick}

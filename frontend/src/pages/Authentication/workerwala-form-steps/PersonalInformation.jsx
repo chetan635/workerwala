@@ -10,12 +10,15 @@ import {
   Textarea,
   InputGroup,
   InputLeftAddon,
+  useToast,
 } from "@chakra-ui/react";
 import { makeApiCallWithoutBody } from "../../../utils/ApiCallService.js";
 import Loading from "../../../components/common/Loading.jsx";
 
 export default function PersonalInformation({
   step,
+  workerWalaInfo,
+  setWorkerWalaInfo,
   handlePrevClick,
   handleNextOrSubmit,
 }) {
@@ -33,11 +36,9 @@ export default function PersonalInformation({
   /**
    * Visible component variables
    */
-  const [show, setShow] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [userNameError, setUserNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [dobError, setdobError] = useState(false);
+  const [dobError, setDobError] = useState(false);
   const [fullNameError, setFullNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [genderError, setGenderError] = useState(false);
@@ -46,6 +47,7 @@ export default function PersonalInformation({
   const [isUserNameLoadingState, setIsUserNameLoadingState] = useState(false);
   const [isEmailLoadingState, setIsEmailLoadingState] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(null);
+  const toast = useToast();
 
   /**
    * Methods to validate if the userName and email are present to use
@@ -127,10 +129,90 @@ export default function PersonalInformation({
     debouncedCheckEmail(email);
   }, [email]);
 
+  // Phone Number validate function
+  function validatePhoneNumber(phoneNumber) {
+    const regex = /^[0-9]+$/;
+    return regex.test(phoneNumber);
+  }
+
+  const throwInvalidFormatError = (title, setupFunction) => {
+    setupFunction(true);
+    return toast({
+      title: title,
+      status: "error",
+      position: "top",
+      isClosable: true,
+      onCloseComplete: () => setupFunction(false),
+    });
+  };
+
   /**
    * Handle next button click to navigate to next form page
    */
   const handleNext = () => {
+    // Handle all the validation in this to avoid any error in data
+    if (userName == "" || isUserNameAvailable == false) {
+      return throwInvalidFormatError(
+        "Please use valid user name",
+        setUserNameError
+      );
+    }
+    if (
+      email == "" ||
+      isEmailAvailable == false ||
+      email.includes("@") == false
+    ) {
+      return throwInvalidFormatError(
+        `Please use approprate email`,
+        setEmailError
+      );
+    }
+    if (date == "") {
+      return throwInvalidFormatError(
+        `Please select the date of birth`,
+        setDobError
+      );
+    }
+    if (fullName == "") {
+      return throwInvalidFormatError(
+        "Please enter the valid full name",
+        setFullNameError
+      );
+    }
+    if (
+      phoneNumber == "" ||
+      !validatePhoneNumber(phoneNumber) ||
+      phoneNumber.length != 10
+    ) {
+      return throwInvalidFormatError(
+        "Please add the valid phone number",
+        setPhoneError
+      );
+    }
+    if (gender == "") {
+      return throwInvalidFormatError(
+        "Please select your gender",
+        setGenderError
+      );
+    }
+    if (address == "") {
+      return throwInvalidFormatError(
+        "Please add your address",
+        setAddressError
+      );
+    }
+
+    // Add details to form data
+    setWorkerWalaInfo({
+      ...workerWalaInfo,
+      userName: userName,
+      email: email,
+      dataOfBirth: date,
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      gender: gender,
+      address: address,
+    });
     handleNextOrSubmit();
   };
 
@@ -163,7 +245,7 @@ export default function PersonalInformation({
             )}
           </div>
           <Input
-            // isInvalid={isUserNameError}
+            isInvalid={userNameError}
             errorBorderColor="crimson"
             onChange={(e) => setUserName(e.target.value)}
             value={userName}
@@ -175,6 +257,7 @@ export default function PersonalInformation({
         <div className="date form-item">
           <FormLabel>Date of Birth</FormLabel>
           <Input
+            isInvalid={dobError}
             onChange={(e) => setDate(e.target.value)}
             variant="filled"
             value={date}
@@ -186,7 +269,7 @@ export default function PersonalInformation({
         <div className="full_name form-item form-item-full">
           <FormLabel>Full Name</FormLabel>
           <Input
-            // isInvalid={isUserNameError}
+            isInvalid={fullNameError}
             errorBorderColor="crimson"
             onChange={(e) => setFullName(e.target.value)}
             value={fullName}
@@ -213,7 +296,7 @@ export default function PersonalInformation({
             )}
           </div>
           <Input
-            // isInvalid={isUserNameError}
+            isInvalid={emailError}
             errorBorderColor="crimson"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
@@ -226,9 +309,11 @@ export default function PersonalInformation({
         <div className="phone_number">
           <FormLabel>Phone</FormLabel>
           <InputGroup>
-            <InputLeftAddon colorScheme="teal">+91</InputLeftAddon>
+            <InputLeftAddon>+91</InputLeftAddon>
             <Input
+              isInvalid={phoneError}
               errorBorderColor="crimson"
+              pattern="[0-9]+"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               type="tel"
@@ -241,6 +326,7 @@ export default function PersonalInformation({
         <div className="gender_select">
           <FormLabel>Gender</FormLabel>
           <Select
+            isInvalid={genderError}
             variant="filled"
             errorBorderColor="crimson"
             value={gender}
@@ -256,6 +342,7 @@ export default function PersonalInformation({
         <div className="address form-item-full">
           <FormLabel>Address</FormLabel>
           <Textarea
+            isInvalid={addressError}
             errorBorderColor="crimson"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
