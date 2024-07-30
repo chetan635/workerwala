@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/Authentication/SignUpAsWorkerWala.css";
 import {
   Box,
@@ -6,16 +6,16 @@ import {
   TabList,
   Tabs,
   TabPanels,
-  TabPanel,
-  Button,
+  TabPanel
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import PersonalInformation from "./workerwala-form-steps/PersonalInformation";
 import ProfessionalInformation from "./workerwala-form-steps/ProfessionalInformation";
+import BackgroundInformation from "./workerwala-form-steps/BackgroundInformation";
 
 export default function SignUpAsWorkerWala() {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [step, setStep] = useState(0);
+  const [tabIndex, setTabIndex] = useState(2);
+  const [step, setStep] = useState(2);
   const [workerWalaInfo, setWorkerWalaInfo] = useState({});
 
   const handleTabsChange = (index) => {
@@ -119,7 +119,13 @@ export default function SignUpAsWorkerWala() {
                 />
               </TabPanel>
               <TabPanel>
-                <p>Oh, hello there.</p>
+                <BackgroundInformation
+                  step={step}
+                  workerWalaInfo={workerWalaInfo}
+                  setWorkerWalaInfo={setWorkerWalaInfo}
+                  handleNextOrSubmit={handleNextOrSubmit}
+                  handlePrevClick={handlePrevClick}
+                />
               </TabPanel>
               <TabPanel>
                 <p>Oh, hello there this is panel 4.</p>
