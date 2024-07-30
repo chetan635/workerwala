@@ -14,8 +14,8 @@ import ProfessionalInformation from "./workerwala-form-steps/ProfessionalInforma
 import BackgroundInformation from "./workerwala-form-steps/BackgroundInformation";
 
 export default function SignUpAsWorkerWala() {
-  const [tabIndex, setTabIndex] = useState(2);
-  const [step, setStep] = useState(2);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [step, setStep] = useState(0);
   const [workerWalaInfo, setWorkerWalaInfo] = useState({});
 
   const handleTabsChange = (index) => {
