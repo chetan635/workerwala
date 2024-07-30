@@ -4,6 +4,7 @@ import { Button, Heading, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Divider } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import WorkerWalaLogo from "../../components/common/WorkerWalaLogo";
 
 export default function UserTypeChoice() {
   // Setting up the state variables:
@@ -22,6 +23,7 @@ export default function UserTypeChoice() {
   return (
     <div className="user_type_choice_body">
       <div className="user_type_choice_container">
+        <WorkerWalaLogo />
         <Heading size="md">Please select role</Heading>
         <Divider />
         <RadioGroup onChange={setValue} value={value}>
@@ -39,7 +41,9 @@ export default function UserTypeChoice() {
                 style={{ color: "#ffc83d" }}
               />
               <Radio size="md" colorScheme="green" value="User">
-                <small><b>Join as User</b></small>
+                <small>
+                  <b>Join as User</b>
+                </small>
               </Radio>
             </div>
             <div
@@ -55,7 +59,9 @@ export default function UserTypeChoice() {
                 style={{ color: "#ffc83d" }}
               />
               <Radio size="md" colorScheme="green" value="WorkerWala">
-              <small><b>Become WorkerWala</b></small>
+                <small>
+                  <b>Become WorkerWala</b>
+                </small>
               </Radio>
             </div>
           </Stack>

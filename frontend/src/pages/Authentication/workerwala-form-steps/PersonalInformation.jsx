@@ -224,9 +224,8 @@ export default function PersonalInformation({
   };
   return (
     <div className="personal_information_body multistep_form_step_body">
+      <Heading size="lg">Personal details</Heading>
       <div className="personal_information_container multistep_form_step_container">
-        <Heading size="lg">Personal details</Heading>
-        <Divider />
         <div className="user_name form-item">
           <div className="flex-sb-c">
             <FormLabel>User Name</FormLabel>

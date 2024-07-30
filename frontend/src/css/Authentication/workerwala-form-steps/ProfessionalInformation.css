@@ -1,0 +1,19 @@
+.professional_information_container {
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(auto-fill, 1fr));
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.certification_items {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
