@@ -14,7 +14,7 @@
   box-shadow: 0px 0px 200px #d4d4d4;
 }
 
-.multistep_form_step_container{
+.multistep_form_step_container {
   overflow-y: scroll;
   height: 90%;
 }
@@ -59,7 +59,23 @@
   color: black;
 }
 
-
 ::-webkit-scrollbar {
   width: 2px;
+}
+
+/* Reflexive styling  */
+/* Tablet styles */
+@media (max-width: 1023px) {
+  .sign_up_as_workerwala_container {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 599px) {
+  .sign_up_as_workerwala_container {
+    height: 100%;
+    width: 100%;
+  }
 }

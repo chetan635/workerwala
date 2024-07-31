@@ -6,6 +6,7 @@ import PersonalInformation from "./workerwala-form-steps/PersonalInformation";
 import ProfessionalInformation from "./workerwala-form-steps/ProfessionalInformation";
 import BackgroundInformation from "./workerwala-form-steps/BackgroundInformation";
 import DocumentsVerification from "./workerwala-form-steps/DocumentsVerification";
+import OtherInformation from "./workerwala-form-steps/OtherInformation";
 
 export default function SignUpAsWorkerWala() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -20,7 +21,7 @@ export default function SignUpAsWorkerWala() {
    * Method to handle the next or submit click
    */
   const handleNextOrSubmit = () => {
-    if (step != 4) {
+    if (step != 5) {
       setStep(step + 1);
       setTabIndex(tabIndex + 1);
     }
@@ -92,6 +93,16 @@ export default function SignUpAsWorkerWala() {
                   height="30px"
                 />
               </Tab>
+              <Tab
+                isDisabled={step == 5 ? false : true}
+                className={tabIndex == 5 ? "tab selected-tab" : "tab"}
+              >
+                <Icon
+                  className="iconify_icon"
+                  icon="simple-icons:authelia"
+                  height="30px"
+                />
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -131,7 +142,16 @@ export default function SignUpAsWorkerWala() {
                 />
               </TabPanel>
               <TabPanel>
-                <p>Oh, hello there this is panel 5.</p>
+                <OtherInformation
+                  step={step}
+                  workerWalaInfo={workerWalaInfo}
+                  setWorkerWalaInfo={setWorkerWalaInfo}
+                  handleNextOrSubmit={handleNextOrSubmit}
+                  handlePrevClick={handlePrevClick}
+                />
+              </TabPanel>
+              <TabPanel>
+                <p>Oh, hello there this is panel 6.</p>
               </TabPanel>
             </TabPanels>
           </Tabs>

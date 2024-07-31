@@ -23,7 +23,7 @@ export default function MultiStepFormNavigation({
         colorScheme="green"
         size="sm"
       >
-        {step == 4 ? "Submit" : "Next"}
+        {step == 5 ? "Submit" : "Next"}
       </Button>
     </div>
   );
