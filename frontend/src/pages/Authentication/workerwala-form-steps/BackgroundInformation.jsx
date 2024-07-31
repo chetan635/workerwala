@@ -200,6 +200,7 @@ export default function BackgroundInformation({
               <VStack spacing={4}>
                 {educationFields.map((field, index) => (
                   <Box
+                    borderColor="teal.500"
                     key={index}
                     borderWidth="1px"
                     borderRadius="lg"
@@ -267,6 +268,7 @@ export default function BackgroundInformation({
               <VStack spacing={4}>
                 {employmentFields.map((field, index) => (
                   <Box
+                    borderColor="teal.500"
                     key={index}
                     borderWidth="1px"
                     borderRadius="lg"
