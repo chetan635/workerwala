@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/Authentication/SignUpAsWorkerWala.css";
 import { Box, Tab, TabList, Tabs, TabPanels, TabPanel } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -7,10 +7,11 @@ import ProfessionalInformation from "./workerwala-form-steps/ProfessionalInforma
 import BackgroundInformation from "./workerwala-form-steps/BackgroundInformation";
 import DocumentsVerification from "./workerwala-form-steps/DocumentsVerification";
 import OtherInformation from "./workerwala-form-steps/OtherInformation";
+import PasswordInformation from "./workerwala-form-steps/PasswordInformation";
 
 export default function SignUpAsWorkerWala() {
-  const [tabIndex, setTabIndex] = useState(0);
-  const [step, setStep] = useState(0);
+  const [tabIndex, setTabIndex] = useState(5);
+  const [step, setStep] = useState(5);
   const [workerWalaInfo, setWorkerWalaInfo] = useState({});
 
   const handleTabsChange = (index) => {
@@ -26,6 +27,12 @@ export default function SignUpAsWorkerWala() {
       setTabIndex(tabIndex + 1);
     }
   };
+
+  useEffect(() => {
+    if (step == 5 && workerWalaInfo.password !== undefined) {
+      // Perform the submit form changes for the workerWala
+    }
+  }, [workerWalaInfo]);
 
   /**
    * Method to handle "prev" click
@@ -151,7 +158,13 @@ export default function SignUpAsWorkerWala() {
                 />
               </TabPanel>
               <TabPanel>
-                <p>Oh, hello there this is panel 6.</p>
+                <PasswordInformation
+                  step={step}
+                  workerWalaInfo={workerWalaInfo}
+                  setWorkerWalaInfo={setWorkerWalaInfo}
+                  handleNextOrSubmit={handleNextOrSubmit}
+                  handlePrevClick={handlePrevClick}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>

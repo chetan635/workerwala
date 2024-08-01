@@ -198,80 +198,82 @@ export default function BackgroundInformation({
                   <span>Educational Background </span>
                 </div>
               </FormLabel>
-              <VStack spacing={4}>
-                {educationFields.map((field, index) => (
-                  <Box
-                    borderColor="teal.500"
-                    key={index}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    p={4}
-                    width="100%"
-                  >
-                    <Grid
-                      templateColumns={{
-                        base: "1fr",
-                        sm: "repeat(2, 1fr)",
-                        md: "repeat(4, 1fr)",
-                      }}
-                      gap={4}
-                      mb={3}
-                    >
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={educationError}
-                          placeholder="School"
-                          name="school"
-                          variant="filled"
-                          value={field.school}
-                          onChange={(event) =>
-                            handleEducationChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={educationError}
-                          placeholder="Degree"
-                          name="degree"
-                          variant="filled"
-                          value={field.degree}
-                          onChange={(event) =>
-                            handleEducationChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={educationError}
-                          placeholder="Year"
-                          name="year"
-                          variant="filled"
-                          value={field.year}
-                          onChange={(event) =>
-                            handleEducationChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <IconButton
-                          icon={<DeleteIcon />}
-                          colorScheme="red"
-                          onClick={() => handleRemoveEducationField(index)}
-                          aria-label={`Remove education entry ${index + 1}`}
-                        />
-                      </GridItem>
-                    </Grid>
-                  </Box>
-                ))}
-                <Button
-                  onClick={handleAddEducationField}
-                  leftIcon={<AddIcon />}
-                  colorScheme="teal"
+              {educationFields.map((field, index) => (
+                <Box
+                  borderColor="teal.500"
+                  key={index}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  padding="10px"
+                  margin="10px 0px"
+                  width="100%"
                 >
-                  Add Education Entry
-                </Button>
-              </VStack>
+                  <Grid
+                    templateColumns={{
+                      base: "1fr",
+                      sm: "repeat(2, 1fr)",
+                      md: "repeat(4, 1fr)",
+                    }}
+                    gap={4}
+                    mb={3}
+                  >
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={educationError}
+                        placeholder="School"
+                        name="school"
+                        id="school"
+                        variant="filled"
+                        value={field.school}
+                        onChange={(event) =>
+                          handleEducationChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={educationError}
+                        placeholder="Degree"
+                        name="degree"
+                        id="degree"
+                        variant="filled"
+                        value={field.degree}
+                        onChange={(event) =>
+                          handleEducationChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={educationError}
+                        placeholder="Year"
+                        name="year"
+                        id="year"
+                        variant="filled"
+                        value={field.year}
+                        onChange={(event) =>
+                          handleEducationChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <IconButton
+                        icon={<DeleteIcon />}
+                        colorScheme="red"
+                        onClick={() => handleRemoveEducationField(index)}
+                        aria-label={`Remove education entry ${index + 1}`}
+                      />
+                    </GridItem>
+                  </Grid>
+                </Box>
+              ))}
+              <Button
+                onClick={handleAddEducationField}
+                leftIcon={<AddIcon />}
+                colorScheme="teal"
+              >
+                Add Education Entry
+              </Button>
             </FormControl>
 
             <FormControl id="employment" mt={8}>
@@ -282,80 +284,82 @@ export default function BackgroundInformation({
                   <span>Previous Employment</span>
                 </div>
               </FormLabel>
-              <VStack spacing={4}>
-                {employmentFields.map((field, index) => (
-                  <Box
-                    borderColor="teal.500"
-                    key={index}
-                    borderWidth="1px"
-                    borderRadius="lg"
-                    p={4}
-                    width="100%"
-                  >
-                    <Grid
-                      templateColumns={{
-                        base: "1fr",
-                        sm: "repeat(2, 1fr)",
-                        md: "repeat(4, 1fr)",
-                      }}
-                      gap={4}
-                      mb={3}
-                    >
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={employmentError}
-                          placeholder="Company"
-                          name="company"
-                          variant="filled"
-                          value={field.company}
-                          onChange={(event) =>
-                            handleEmploymentChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={employmentError}
-                          placeholder="Position"
-                          name="position"
-                          variant="filled"
-                          value={field.position}
-                          onChange={(event) =>
-                            handleEmploymentChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <Input
-                          isInvalid={employmentError}
-                          placeholder="Duration"
-                          name="duration"
-                          variant="filled"
-                          value={field.duration}
-                          onChange={(event) =>
-                            handleEmploymentChange(index, event)
-                          }
-                        />
-                      </GridItem>
-                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
-                        <IconButton
-                          icon={<DeleteIcon />}
-                          colorScheme="red"
-                          onClick={() => handleRemoveEmploymentField(index)}
-                          aria-label={`Remove employment entry ${index + 1}`}
-                        />
-                      </GridItem>
-                    </Grid>
-                  </Box>
-                ))}
-                <Button
-                  onClick={handleAddEmploymentField}
-                  leftIcon={<AddIcon />}
-                  colorScheme="teal"
+              {employmentFields.map((field, index) => (
+                <Box
+                  borderColor="teal.500"
+                  key={index}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  padding="10px"
+                  margin="10px 0px"
+                  width="100%"
                 >
-                  Add Employment Entry
-                </Button>
-              </VStack>
+                  <Grid
+                    templateColumns={{
+                      base: "1fr",
+                      sm: "repeat(2, 1fr)",
+                      md: "repeat(4, 1fr)",
+                    }}
+                    gap={4}
+                    mb={3}
+                  >
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={employmentError}
+                        placeholder="Company"
+                        name="company"
+                        id="company"
+                        variant="filled"
+                        value={field.company}
+                        onChange={(event) =>
+                          handleEmploymentChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={employmentError}
+                        placeholder="Position"
+                        name="position"
+                        id="position"
+                        variant="filled"
+                        value={field.position}
+                        onChange={(event) =>
+                          handleEmploymentChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <Input
+                        isInvalid={employmentError}
+                        placeholder="Duration"
+                        name="duration"
+                        id="duration"
+                        variant="filled"
+                        value={field.duration}
+                        onChange={(event) =>
+                          handleEmploymentChange(index, event)
+                        }
+                      />
+                    </GridItem>
+                    <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                      <IconButton
+                        icon={<DeleteIcon />}
+                        colorScheme="red"
+                        onClick={() => handleRemoveEmploymentField(index)}
+                        aria-label={`Remove employment entry ${index + 1}`}
+                      />
+                    </GridItem>
+                  </Grid>
+                </Box>
+              ))}
+              <Button
+                onClick={handleAddEmploymentField}
+                leftIcon={<AddIcon />}
+                colorScheme="teal"
+              >
+                Add Employment Entry
+              </Button>
             </FormControl>
           </Box>
         </ChakraProvider>

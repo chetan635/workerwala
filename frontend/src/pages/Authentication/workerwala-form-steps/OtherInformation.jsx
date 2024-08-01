@@ -279,6 +279,7 @@ export default function OtherInformation({
                           variant="filled"
                           placeholder="Rate Type"
                           name="type"
+                          id="type"
                           value={rate.type}
                           onChange={(event) =>
                             handleServiceRateChange(index, event)
@@ -291,6 +292,7 @@ export default function OtherInformation({
                           variant="filled"
                           placeholder="Rate"
                           name="rate"
+                          id="rate"
                           value={rate.rate}
                           onChange={(event) =>
                             handleServiceRateChange(index, event)
@@ -341,6 +343,7 @@ export default function OtherInformation({
                           variant="filled"
                           placeholder="Name"
                           name="name"
+                          id="name"
                           value={reference.name}
                           onChange={(event) =>
                             handleReferenceChange(index, event)
@@ -353,6 +356,7 @@ export default function OtherInformation({
                           variant="filled"
                           placeholder="Contact"
                           name="contact"
+                          id="contact"
                           value={reference.contact}
                           onChange={(event) =>
                             handleReferenceChange(index, event)

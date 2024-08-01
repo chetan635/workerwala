@@ -2,14 +2,23 @@ import React, { useEffect, useState } from "react";
 import MultiStepFormNavigation from "./MultiStepFormNavigation";
 import "../../../css/Authentication/workerwala-form-steps/PersonalInformation.css";
 import {
+  ChakraProvider,
+  Box,
+  FormControl,
   FormLabel,
   Input,
-  Heading,
-  Select,
-  Textarea,
   InputGroup,
   InputLeftAddon,
+  Select,
+  Textarea,
+  Heading,
+  Text,
+  Spinner,
   useToast,
+  VStack,
+  HStack,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { makeApiCallWithoutBody } from "../../../utils/ApiCallService.js";
 import Loading from "../../../components/common/Loading.jsx";
@@ -222,141 +231,181 @@ export default function PersonalInformation({
     handlePrevClick();
   };
   return (
-    <div className="personal_information_body multistep_form_step_body">
-      <Heading size="lg">Personal details</Heading>
-      <div className="personal_information_container multistep_form_step_container">
-        <div className="user_name form-item">
-          <div className="flex-sb-c">
-            <FormLabel>User Name</FormLabel>
-            {isUserNameLoadingState ? (
-              <p>
-                <small>
-                  <Loading />
-                </small>
-              </p>
-            ) : isUserNameAvailable === null ? (
-              <small></small>
-            ) : isUserNameAvailable ? (
-              <small className="available">Username is available!</small>
-            ) : (
-              <small className="exists">Username already exists!!</small>
-            )}
-          </div>
-          <Input
-            isInvalid={userNameError}
-            errorBorderColor="crimson"
-            onChange={(e) => setUserName(e.target.value)}
-            value={userName}
-            variant="filled"
-            placeholder="User Name"
-            id="userName"
-          />
-        </div>
-        <div className="date form-item">
-          <FormLabel>Date of Birth</FormLabel>
-          <Input
-            isInvalid={dobError}
-            onChange={(e) => setDate(e.target.value)}
-            variant="filled"
-            value={date}
-            placeholder="Select Date and Time"
-            size="md"
-            type="date"
-          />
-        </div>
-        <div className="full_name form-item form-item-full">
-          <FormLabel>Full Name</FormLabel>
-          <Input
-            isInvalid={fullNameError}
-            errorBorderColor="crimson"
-            onChange={(e) => setFullName(e.target.value)}
-            value={fullName}
-            variant="filled"
-            placeholder="User Name"
-            id="userName"
-          />
-        </div>
-        <div className="email form-item form-item-full">
-          <div className="flex-sb-c">
-            <FormLabel>Email</FormLabel>
-            {isEmailLoadingState ? (
-              <p>
-                <small>
-                  <Loading />
-                </small>
-              </p>
-            ) : isEmailAvailable === null ? (
-              <small></small>
-            ) : isEmailAvailable ? (
-              <small className="available">Email is available!</small>
-            ) : (
-              <small className="exists">Email Address already exists!!</small>
-            )}
-          </div>
-          <Input
-            isInvalid={emailError}
-            errorBorderColor="crimson"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            variant="filled"
-            type="email"
-            placeholder="Email address"
-            id="email"
-          />
-        </div>
-        <div className="phone_number">
-          <FormLabel>Phone</FormLabel>
-          <InputGroup>
-            <InputLeftAddon>+91</InputLeftAddon>
-            <Input
-              isInvalid={phoneError}
-              errorBorderColor="crimson"
-              pattern="[0-9]+"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              type="tel"
-              variant="filled"
-              id="phone"
-              placeholder="Phone number"
-            />
-          </InputGroup>
-        </div>
-        <div className="gender_select">
-          <FormLabel>Gender</FormLabel>
-          <Select
-            isInvalid={genderError}
-            variant="filled"
-            errorBorderColor="crimson"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            placeholder="Select option"
-            id="gender"
+    <ChakraProvider>
+      <Box
+        className="personal_information_body multistep_form_step_body"
+        p={5}
+        mx="auto"
+      >
+        <Heading size="lg" mb={5}>
+          Personal details
+        </Heading>
+        <VStack
+          className="personal_information_container multistep_form_step_container"
+          spacing={5}
+        >
+          <Grid
+            templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+            gap={6}
+            w="100%"
           >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </Select>
-        </div>
-        <div className="address form-item-full">
-          <FormLabel>Address</FormLabel>
-          <Textarea
-            isInvalid={addressError}
-            errorBorderColor="crimson"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            variant="filled"
-            resize="none"
-            size="md"
-            id="address"
-            placeholder="Please add complete address"
-          />
-        </div>
-      </div>
-      <MultiStepFormNavigation
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-        step={step}
-      />
-    </div>
+            <GridItem>
+              <FormControl
+                className="user_name form-item"
+                isInvalid={userNameError}
+              >
+                <HStack justifyContent="space-between">
+                  <FormLabel>User Name</FormLabel>
+                  {isUserNameLoadingState ? (
+                    <Text as="small">
+                      <Spinner size="sm" />
+                    </Text>
+                  ) : isUserNameAvailable === null ? (
+                    <Text as="small"></Text>
+                  ) : isUserNameAvailable ? (
+                    <Text as="small" className="available">
+                      Username is available!
+                    </Text>
+                  ) : (
+                    <Text as="small" className="exists">
+                      Username already exists!!
+                    </Text>
+                  )}
+                </HStack>
+                <Input
+                  errorBorderColor="crimson"
+                  onChange={(e) => setUserName(e.target.value)}
+                  value={userName}
+                  variant="filled"
+                  placeholder="User Name"
+                  id="userName"
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem>
+              <FormControl className="date form-item" isInvalid={dobError}>
+                <FormLabel>Date of Birth</FormLabel>
+                <Input
+                  onChange={(e) => setDate(e.target.value)}
+                  variant="filled"
+                  value={date}
+                  placeholder="Select Date"
+                  size="md"
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={{ base: 1, md: 2 }}>
+              <FormControl
+                className="full_name form-item form-item-full"
+                isInvalid={fullNameError}
+              >
+                <FormLabel>Full Name</FormLabel>
+                <Input
+                  errorBorderColor="crimson"
+                  onChange={(e) => setFullName(e.target.value)}
+                  value={fullName}
+                  variant="filled"
+                  placeholder="Full Name"
+                  id="fullName"
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={{ base: 1, md: 2 }}>
+              <FormControl
+                className="email form-item form-item-full"
+                isInvalid={emailError}
+              >
+                <HStack justifyContent="space-between">
+                  <FormLabel>Email</FormLabel>
+                  {isEmailLoadingState ? (
+                    <Text as="small">
+                      <Spinner size="sm" />
+                    </Text>
+                  ) : isEmailAvailable === null ? (
+                    <Text as="small"></Text>
+                  ) : isEmailAvailable ? (
+                    <Text as="small" className="available">
+                      Email is available!
+                    </Text>
+                  ) : (
+                    <Text as="small" className="exists">
+                      Email Address already exists!!
+                    </Text>
+                  )}
+                </HStack>
+                <Input
+                  errorBorderColor="crimson"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  variant="filled"
+                  type="email"
+                  placeholder="Email address"
+                  id="email"
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem>
+              <FormControl className="phone_number" isInvalid={phoneError}>
+                <FormLabel>Phone</FormLabel>
+                <InputGroup>
+                  <InputLeftAddon>+91</InputLeftAddon>
+                  <Input
+                    errorBorderColor="crimson"
+                    pattern="[0-9]+"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    type="tel"
+                    variant="filled"
+                    id="phone"
+                    placeholder="Phone number"
+                  />
+                </InputGroup>
+              </FormControl>
+            </GridItem>
+            <GridItem>
+              <FormControl className="gender_select" isInvalid={genderError}>
+                <FormLabel>Gender</FormLabel>
+                <Select
+                  errorBorderColor="crimson"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  variant="filled"
+                  placeholder="Select option"
+                  id="gender"
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </Select>
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={{ base: 1, md: 2 }}>
+              <FormControl
+                className="address form-item-full"
+                isInvalid={addressError}
+              >
+                <FormLabel>Address</FormLabel>
+                <Textarea
+                  errorBorderColor="crimson"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  variant="filled"
+                  resize="none"
+                  size="md"
+                  id="address"
+                  placeholder="Please add complete address"
+                />
+              </FormControl>
+            </GridItem>
+          </Grid>
+        </VStack>
+        <MultiStepFormNavigation
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+          step={step}
+        />
+      </Box>
+    </ChakraProvider>
   );
 }
