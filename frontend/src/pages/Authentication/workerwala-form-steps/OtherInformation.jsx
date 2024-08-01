@@ -14,6 +14,7 @@ import {
   Heading,
   IconButton,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 
@@ -41,6 +42,7 @@ export default function OtherInformation({
   /**
    * Visible component variables
    */
+  const toast = useToast();
   const [profilePictureError, setProfilePictureError] = useState(false);
   const [bioError, setBioError] = useState(false);
   const [serviceRatesError, setServiceRatesError] = useState(false);
@@ -55,6 +57,23 @@ export default function OtherInformation({
     emergencyContactPhoneNumberError,
     setEmergencyContactPhoneNumberError,
   ] = useState(false);
+
+  /**
+   * Method to handle the error toast
+   * @param {*} title
+   * @param {*} setupFunction
+   * @returns
+   */
+  const throwInvalidFormatError = (title, setupFunction) => {
+    setupFunction(true);
+    return toast({
+      title: title,
+      status: "error",
+      position: "top",
+      isClosable: true,
+      onCloseComplete: () => setupFunction(false),
+    });
+  };
 
   /**
    * Handle veriables changes
@@ -117,16 +136,82 @@ export default function OtherInformation({
    */
   const handleNext = () => {
     // Handle form submission logic
-    console.log("Profile Picture:", profilePicture);
-    console.log("Bio:", bio);
-    console.log("Service Rates:", serviceRates);
-    console.log("References:", references);
-    console.log("Emergency Contact Name:", emergencyContactName);
-    console.log(
-      "Emergency Contact Relationship:",
-      emergencyContactRelationship
-    );
-    console.log("Emergency Contact Phone Number:", emergencyContactPhoneNumber);
+    if (profilePicture == null) {
+      return throwInvalidFormatError(
+        "Please select profile picture of your choice",
+        setProfilePictureError
+      );
+    }
+    if (bio == "") {
+      return throwInvalidFormatError(
+        "Please add description about yourself",
+        setBioError
+      );
+    }
+    if (serviceRates.length == 0) {
+      return toast({
+        title: "Please add at least one service rates info.",
+        status: "error",
+        position: "top",
+        isClosable: true,
+      });
+    }
+    if (references.length == 0) {
+      return toast({
+        title: "Please add at least one reference info.",
+        status: "error",
+        position: "top",
+        isClosable: true,
+      });
+    }
+    if (
+      serviceRates.at(serviceRates.length - 1).type == "" ||
+      serviceRates.at(serviceRates.length - 1).rate == ""
+    ) {
+      return throwInvalidFormatError(
+        "Please fill all the required fields",
+        setServiceRatesError
+      );
+    }
+    if (
+      references.at(references.length - 1).name == "" ||
+      references.at(references.length - 1).contact == ""
+    ) {
+      return throwInvalidFormatError(
+        "Please fill all the required fields",
+        setReferencesError
+      );
+    }
+    if (emergencyContactName == "") {
+      return throwInvalidFormatError(
+        "Please add name of emergency contact",
+        setEmergencyContactNameError
+      );
+    }
+    if (emergencyContactRelationship == "") {
+      return throwInvalidFormatError(
+        "Please specify relationship with emergency contact",
+        setEmergencyContactRelationshipError
+      );
+    }
+    if (emergencyContactPhoneNumber == "") {
+      return throwInvalidFormatError(
+        "Please provided phone number of emergency contact",
+        setEmergencyContactPhoneNumberError
+      );
+    }
+
+    // Add details to form data
+    setWorkerWalaInfo({
+      ...workerWalaInfo,
+      profilePicture: profilePicture,
+      bio: bio,
+      serviceRates: serviceRates,
+      references: references,
+      emergencyContactName: emergencyContactName,
+      emergencyContactRelationship: emergencyContactRelationship,
+      emergencyContactPhoneNumber: emergencyContactPhoneNumber,
+    });
     handleNextOrSubmit();
   };
   return (

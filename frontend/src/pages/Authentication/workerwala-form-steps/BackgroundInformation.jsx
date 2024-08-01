@@ -9,8 +9,9 @@ import {
   Input,
   Button,
   VStack,
-  HStack,
   IconButton,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -207,44 +208,60 @@ export default function BackgroundInformation({
                     p={4}
                     width="100%"
                   >
-                    <HStack spacing={4} mb={3}>
-                      <Input
-                        isInvalid={educationError}
-                        placeholder="School"
-                        name="school"
-                        variant="filled"
-                        value={field.school}
-                        onChange={(event) =>
-                          handleEducationChange(index, event)
-                        }
-                      />
-                      <Input
-                        isInvalid={educationError}
-                        placeholder="Degree"
-                        name="degree"
-                        variant="filled"
-                        value={field.degree}
-                        onChange={(event) =>
-                          handleEducationChange(index, event)
-                        }
-                      />
-                      <Input
-                        isInvalid={educationError}
-                        placeholder="Year"
-                        name="year"
-                        variant="filled"
-                        value={field.year}
-                        onChange={(event) =>
-                          handleEducationChange(index, event)
-                        }
-                      />
-                      <IconButton
-                        icon={<DeleteIcon />}
-                        colorScheme="red"
-                        onClick={() => handleRemoveEducationField(index)}
-                        aria-label={`Remove education entry ${index + 1}`}
-                      />
-                    </HStack>
+                    <Grid
+                      templateColumns={{
+                        base: "1fr",
+                        sm: "repeat(2, 1fr)",
+                        md: "repeat(4, 1fr)",
+                      }}
+                      gap={4}
+                      mb={3}
+                    >
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={educationError}
+                          placeholder="School"
+                          name="school"
+                          variant="filled"
+                          value={field.school}
+                          onChange={(event) =>
+                            handleEducationChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={educationError}
+                          placeholder="Degree"
+                          name="degree"
+                          variant="filled"
+                          value={field.degree}
+                          onChange={(event) =>
+                            handleEducationChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={educationError}
+                          placeholder="Year"
+                          name="year"
+                          variant="filled"
+                          value={field.year}
+                          onChange={(event) =>
+                            handleEducationChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <IconButton
+                          icon={<DeleteIcon />}
+                          colorScheme="red"
+                          onClick={() => handleRemoveEducationField(index)}
+                          aria-label={`Remove education entry ${index + 1}`}
+                        />
+                      </GridItem>
+                    </Grid>
                   </Box>
                 ))}
                 <Button
@@ -275,44 +292,60 @@ export default function BackgroundInformation({
                     p={4}
                     width="100%"
                   >
-                    <HStack spacing={4} mb={3}>
-                      <Input
-                        isInvalid={employmentError}
-                        placeholder="Company"
-                        name="company"
-                        variant="filled"
-                        value={field.company}
-                        onChange={(event) =>
-                          handleEmploymentChange(index, event)
-                        }
-                      />
-                      <Input
-                        isInvalid={employmentError}
-                        placeholder="Position"
-                        name="position"
-                        variant="filled"
-                        value={field.position}
-                        onChange={(event) =>
-                          handleEmploymentChange(index, event)
-                        }
-                      />
-                      <Input
-                        isInvalid={employmentError}
-                        placeholder="Duration"
-                        name="duration"
-                        variant="filled"
-                        value={field.duration}
-                        onChange={(event) =>
-                          handleEmploymentChange(index, event)
-                        }
-                      />
-                      <IconButton
-                        icon={<DeleteIcon />}
-                        colorScheme="red"
-                        onClick={() => handleRemoveEmploymentField(index)}
-                        aria-label={`Remove employment entry ${index + 1}`}
-                      />
-                    </HStack>
+                    <Grid
+                      templateColumns={{
+                        base: "1fr",
+                        sm: "repeat(2, 1fr)",
+                        md: "repeat(4, 1fr)",
+                      }}
+                      gap={4}
+                      mb={3}
+                    >
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={employmentError}
+                          placeholder="Company"
+                          name="company"
+                          variant="filled"
+                          value={field.company}
+                          onChange={(event) =>
+                            handleEmploymentChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={employmentError}
+                          placeholder="Position"
+                          name="position"
+                          variant="filled"
+                          value={field.position}
+                          onChange={(event) =>
+                            handleEmploymentChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <Input
+                          isInvalid={employmentError}
+                          placeholder="Duration"
+                          name="duration"
+                          variant="filled"
+                          value={field.duration}
+                          onChange={(event) =>
+                            handleEmploymentChange(index, event)
+                          }
+                        />
+                      </GridItem>
+                      <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
+                        <IconButton
+                          icon={<DeleteIcon />}
+                          colorScheme="red"
+                          onClick={() => handleRemoveEmploymentField(index)}
+                          aria-label={`Remove employment entry ${index + 1}`}
+                        />
+                      </GridItem>
+                    </Grid>
                   </Box>
                 ))}
                 <Button
