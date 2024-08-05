@@ -22,6 +22,7 @@ import "../../../css/Authentication/workerwala-form-steps/PasswordInformation.cs
 import userAuthenticationView from "../../../assets/images/User-Authentication-view.png";
 
 export default function PasswordInformation({
+  isLoading,
   step,
   workerWalaInfo,
   setWorkerWalaInfo,
@@ -194,6 +195,7 @@ export default function PasswordInformation({
         </ChakraProvider>
       </div>
       <MultiStepFormNavigation
+        isLoading={isLoading}
         handlePrev={handlePrev}
         handleNext={handleSubmit}
         step={step}

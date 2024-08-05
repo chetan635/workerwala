@@ -131,6 +131,16 @@ export default function OtherInformation({
     handlePrevClick();
   };
 
+  // Phone Number validate function
+  function validatePhoneNumber(phoneNumber) {
+    console.log(phoneNumber.length);
+    if (phoneNumber.length != 10) {
+      return false;
+    }
+    const regex = /^[0-9]+$/;
+    return regex.test(phoneNumber);
+  }
+
   /**
    * Handle the next button click
    */
@@ -194,9 +204,12 @@ export default function OtherInformation({
         setEmergencyContactRelationshipError
       );
     }
-    if (emergencyContactPhoneNumber == "") {
+    if (
+      emergencyContactPhoneNumber == "" ||
+      !validatePhoneNumber(emergencyContactPhoneNumber)
+    ) {
       return throwInvalidFormatError(
-        "Please provided phone number of emergency contact",
+        "Please provided valid phone number of emergency contact",
         setEmergencyContactPhoneNumberError
       );
     }
@@ -290,8 +303,9 @@ export default function OtherInformation({
                         <Input
                           isInvalid={serviceRatesError}
                           variant="filled"
-                          placeholder="Rate"
+                          placeholder="Rate in ₹"
                           name="rate"
+                          type="number"
                           id="rate"
                           value={rate.rate}
                           onChange={(event) =>
@@ -356,6 +370,7 @@ export default function OtherInformation({
                           variant="filled"
                           placeholder="Contact"
                           name="contact"
+                          type="number"
                           id="contact"
                           value={reference.contact}
                           onChange={(event) =>
@@ -420,6 +435,7 @@ export default function OtherInformation({
                   <FormControl id="emergency-contact-phone">
                     <FormLabel>Emergency Contact Phone Number</FormLabel>
                     <Input
+                      type="number"
                       isInvalid={emergencyContactPhoneNumberError}
                       variant="filled"
                       placeholder="Phone Number"

@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/react";
 import React from "react";
 
 export default function MultiStepFormNavigation({
+  isLoading,
   step,
   handlePrev,
   handleNext,
@@ -18,6 +19,7 @@ export default function MultiStepFormNavigation({
         Prev
       </Button>
       <Button
+        isLoading={isLoading}
         onClick={() => handleNext()}
         width="100px"
         colorScheme="green"

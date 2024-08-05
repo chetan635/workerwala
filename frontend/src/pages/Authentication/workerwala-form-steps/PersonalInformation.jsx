@@ -139,6 +139,9 @@ export default function PersonalInformation({
 
   // Phone Number validate function
   function validatePhoneNumber(phoneNumber) {
+    if (phoneNumber.length != 10) {
+      return false;
+    }
     const regex = /^[0-9]+$/;
     return regex.test(phoneNumber);
   }
@@ -355,7 +358,7 @@ export default function PersonalInformation({
                     pattern="[0-9]+"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    type="tel"
+                    type="number"
                     variant="filled"
                     id="phone"
                     placeholder="Phone number"

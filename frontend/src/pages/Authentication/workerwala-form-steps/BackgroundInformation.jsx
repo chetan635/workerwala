@@ -8,7 +8,6 @@ import {
   FormLabel,
   Input,
   Button,
-  VStack,
   IconButton,
   Grid,
   GridItem,
@@ -249,6 +248,7 @@ export default function BackgroundInformation({
                         placeholder="Year"
                         name="year"
                         id="year"
+                        type="number"
                         variant="filled"
                         value={field.year}
                         onChange={(event) =>

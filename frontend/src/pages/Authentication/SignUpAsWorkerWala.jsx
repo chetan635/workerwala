@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../../css/Authentication/SignUpAsWorkerWala.css";
-import { Box, Tab, TabList, Tabs, TabPanels, TabPanel } from "@chakra-ui/react";
+import {
+  Box,
+  Tab,
+  TabList,
+  Tabs,
+  TabPanels,
+  TabPanel,
+  useToast,
+} from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import PersonalInformation from "./workerwala-form-steps/PersonalInformation";
 import ProfessionalInformation from "./workerwala-form-steps/ProfessionalInformation";
@@ -8,11 +16,17 @@ import BackgroundInformation from "./workerwala-form-steps/BackgroundInformation
 import DocumentsVerification from "./workerwala-form-steps/DocumentsVerification";
 import OtherInformation from "./workerwala-form-steps/OtherInformation";
 import PasswordInformation from "./workerwala-form-steps/PasswordInformation";
+import { Auth } from "../../lib/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpAsWorkerWala() {
-  const [tabIndex, setTabIndex] = useState(5);
-  const [step, setStep] = useState(5);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [step, setStep] = useState(0);
   const [workerWalaInfo, setWorkerWalaInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const auth = Auth();
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const handleTabsChange = (index) => {
     setTabIndex(index);
@@ -28,9 +42,45 @@ export default function SignUpAsWorkerWala() {
     }
   };
 
+  const handleSubmitForm = async () => {
+    setIsLoading(true);
+    // API Request to the "/auth/register" route in backend to register the user.
+    try {
+      const signUpResponse = await auth.SignUpUser({
+        username: workerWalaInfo.userName,
+        password: workerWalaInfo.password,
+        email: workerWalaInfo.email,
+        role: "workerWala",
+        isEnabled: false,
+      });
+      if (signUpResponse.status == "success") {
+        toast({
+          title: signUpResponse.message,
+          status: "success",
+          isClosable: true,
+        });
+        navigate("/verify-email", { state: email });
+      } else {
+        toast({
+          title: signUpResponse.message,
+          status: "error",
+          isClosable: true,
+        });
+        setIsLoading(false);
+      }
+    } catch (error) {
+      toast({
+        title: `Something went wrong while creating the accout, Please retry`,
+        status: "error",
+        isClosable: true,
+      });
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (step == 5 && workerWalaInfo.password !== undefined) {
-      // Perform the submit form changes for the workerWala
+      handleSubmitForm(workerWalaInfo);
     }
   }, [workerWalaInfo]);
 
@@ -159,6 +209,7 @@ export default function SignUpAsWorkerWala() {
               </TabPanel>
               <TabPanel>
                 <PasswordInformation
+                  isLoading={isLoading}
                   step={step}
                   workerWalaInfo={workerWalaInfo}
                   setWorkerWalaInfo={setWorkerWalaInfo}
