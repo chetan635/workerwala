@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { makeApiCall } from "../utils/ApiCallService";
+import { makeApiCall, makeApiCallWithFormData } from "../utils/ApiCallService";
 
 const AuthContext = createContext();
 
@@ -32,6 +32,36 @@ const AuthProvider = ({ children }) => {
     }).then((res) => res.json());
     return signUpResponse;
   };
+
+  /**
+   * Method to make the sign UP request for the workerwala using provided information.
+   * 
+   * @param data Containing all the details of the workerwala to set it to the backend.
+   */
+    const SignUpAsWorkerwala = async (workerWalaInfo) =>{
+
+      /**
+       * Create formData from received info form worker to send it to the backend.
+       */
+      const formData = new FormData();
+      formData.append('workerWalaInfoJsonString', workerWalaInfo.workerWalaInfoString)
+      formData.append('governmentId', workerWalaInfo.governmentId);
+      formData.append('proofOfAddress', workerWalaInfo.proofOfAddress);
+      formData.append('professionalLicense', workerWalaInfo.professionalLicense);
+      formData.append('profilePicture',workerWalaInfo.profilePicture);
+
+      /**
+       * API call to the signUp service in backend.
+       */
+      const signUpWorkerwalaResponse = await makeApiCallWithFormData(
+        "POST", 
+        "auth/registerWorkerWala", 
+        formData
+      )
+      .then((res) => res.json());
+
+      return signUpWorkerwalaResponse;
+    }
 
   /**
    * Method to Login the user to the workerwala.
@@ -124,6 +154,7 @@ const AuthProvider = ({ children }) => {
         loginUser,
         logoutUser,
         SignUpUser,
+        SignUpAsWorkerwala
       }}
     >
       {children}

@@ -69,8 +69,8 @@ export default function UserTypeChoice() {
         <Divider />
         <Button
           colorScheme="teal"
-          h="1.75rem"
-          width="70%"
+          h="2.25rem"
+          width="85%"
           size="sm"
           onClick={() => handleChoiceSelection()}
         >

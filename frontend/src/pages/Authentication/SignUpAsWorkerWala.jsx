@@ -44,22 +44,45 @@ export default function SignUpAsWorkerWala() {
 
   const handleSubmitForm = async () => {
     setIsLoading(true);
-    // API Request to the "/auth/register" route in backend to register the user.
+    // API Request to the "/auth/register" route in backend to register workerwala user.
     try {
-      const signUpResponse = await auth.SignUpUser({
-        username: workerWalaInfo.userName,
+      const workerWalaInfoString = JSON.stringify({
+        userName: workerWalaInfo.userName,
         password: workerWalaInfo.password,
         email: workerWalaInfo.email,
-        role: "workerWala",
-        isEnabled: false,
+        dataOfBirth: workerWalaInfo.dataOfBirth,
+        fullName : workerWalaInfo.fullName,
+        phoneNumber : workerWalaInfo.phoneNumber,
+        gender : workerWalaInfo.gender,
+        address : workerWalaInfo.address,
+        jobTitle : workerWalaInfo.jobTitle,
+        experience : workerWalaInfo.experience,
+        availability : workerWalaInfo.availability,
+        certifications : workerWalaInfo.certifications,
+        skillsAndSpecializations : workerWalaInfo.skillsAndSpecializations,
+        employmentDetails : workerWalaInfo.employmentDetails,
+        educationDetails : workerWalaInfo.educationDetails,
+        bio : workerWalaInfo.bio,
+        serviceRates : workerWalaInfo.serviceRates,
+        references : workerWalaInfo.references,
+        emergencyContactName : workerWalaInfo.emergencyContactName,
+        emergencyContactRelationship : workerWalaInfo.emergencyContactRelationship,
+        emergencyContactPhoneNumber : workerWalaInfo.emergencyContactPhoneNumber
       });
+      const signUpResponse = await auth.SignUpAsWorkerwala({
+        workerWalaInfoString : workerWalaInfoString, 
+        governmentId : workerWalaInfo.governmentId, 
+        proofOfAddress: workerWalaInfo.proofOfAddress,
+        professionalLicense: workerWalaInfo.professionalLicense,
+        profilePicture: workerWalaInfo.profilePicture});
+
       if (signUpResponse.status == "success") {
         toast({
           title: signUpResponse.message,
           status: "success",
           isClosable: true,
         });
-        navigate("/verify-email", { state: email });
+        navigate("/verify-email", { state: workerWalaInfo.email });
       } else {
         toast({
           title: signUpResponse.message,
