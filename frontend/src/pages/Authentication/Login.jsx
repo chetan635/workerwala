@@ -61,10 +61,19 @@ export default function Login() {
         /**
          * Make API call to login user with provided credentials
          */
-        await auth.loginUser({
+        const returnedLoginResponse = await auth.loginUser({
           username: userName,
           password: password,
         });
+
+        if (returnedLoginResponse.status == "failure") {
+          toast({
+            title: `Authentication failed due to reason: ${returnedLoginResponse.message}`,
+            status: "error",
+            isClosable: true,
+          });
+          setIsLoading(false);
+        }
       } catch (error) {
         toast({
           title: `Authentication failed due to reason: ${error}`,

@@ -99,7 +99,7 @@ const AuthProvider = ({ children }) => {
         navigate("/");
         return null;
       } else if (loginResponse.status == "failure") {
-        throw (loginResponse, message);
+        return loginResponse;
       }
     } catch (error) {
       throw "Something went wrong!";
