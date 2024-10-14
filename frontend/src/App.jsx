@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./pages/Authentication/SignUp";
 import AuthProvider from "./lib/AuthProvider";
 import Home from "./pages/Home/Home";
+import "aos/dist/aos.css";
+import AOS from "aos";
 import PrivateRoute from "./lib/PrivateRoute";
 import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
@@ -13,8 +15,14 @@ import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ChangePassword from "./components/Authentication/ChangePassword";
 import UserTypeChoice from "./pages/Authentication/UserTypeChoice";
 import SignUpAsWorkerWala from "./pages/Authentication/SignUpAsWorkerWala";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+    });
+  }, []);
   return (
     <>
       <Router>
@@ -38,8 +46,9 @@ function App() {
             <Route path="/change-password" element={<ChangePassword />}>
               <Route path=":verificationToken" element={<ChangePassword />} />
             </Route>
+            <Route path="/" element={<Home />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/" element={<Home />} />
+              {/* Create private routes */}
             </Route>
           </Routes>
         </AuthProvider>

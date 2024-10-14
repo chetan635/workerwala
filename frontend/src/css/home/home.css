@@ -1,0 +1,13 @@
+/* CSS styling for header component */
+.header-class {
+    height:75px ;
+    border-bottom: 1px solid #dce0e6;
+    align-items: center;
+}
+
+.main-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
