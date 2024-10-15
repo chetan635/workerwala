@@ -16,7 +16,7 @@ export default function IntroductionSection() {
           />
         </div>
         <div className="right">
-          <div data-aos="zoom-in" className="Introduction-section-heading">
+          <div className="Introduction-section-heading">
             <h1>The easy, reliable way to take care of your home!!</h1>
           </div>
           <div className="Introduction-section-headingV2">

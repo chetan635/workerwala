@@ -54,8 +54,7 @@
 
 @media (max-width: 600px) {
   .service-navigation {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 24px 0 24px 0;
   }
 
   .service-navigation-tablist {

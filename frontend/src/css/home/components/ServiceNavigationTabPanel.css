@@ -22,13 +22,13 @@
   object-fit: cover;
   object-position: center;
   color: transparent;
+  border-radius: 10px;
 }
 
 .service-tab-image-container {
   border-radius: 8px;
   height: 100%;
   margin-left: 80px;
-  max-height: 491px;
   max-width: 950px;
   position: relative;
   width: calc(100% - 80px);
@@ -54,4 +54,23 @@
   width: 383px;
   top: 130px;
   z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .service-tab-panal-inner-box{
+    position: static;
+    width: 100%;
+  }
+  .service-tab-panal-outer-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+  }
+
+  .service-tab-image-container {
+    margin-left: 0px;
+    width: calc(100%);
+  }
 }

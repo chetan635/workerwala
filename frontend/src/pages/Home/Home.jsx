@@ -2,6 +2,7 @@ import React from "react";
 import { Button, useToast } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import "../../css/home/home.css";
 import IntroductionSection from "./components/IntroductionSection";
 import ServiceNavigation from "./components/ServiceNavigation";
@@ -31,6 +32,9 @@ export default function Home() {
         <IntroductionSection/>
         <ServiceNavigation/>
       </main>
+      <footer>
+        <Footer/>
+      </footer>
     </div>
   );
 }
