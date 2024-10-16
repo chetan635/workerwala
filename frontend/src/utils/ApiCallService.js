@@ -31,7 +31,11 @@ export async function makeApiCall(requestType, endpoint, requestBody) {
  * @param {*} requestBody requestBody of the API call
  * @param {*} endpoint endpoint for the api call
  */
-export async function makeApiCallWithFormData(requestType, endpoint, requestBody) {
+export async function makeApiCallWithFormData(
+  requestType,
+  endpoint,
+  requestBody
+) {
   return await fetch(`${authConstants.dataBaseServer}/${endpoint}`, {
     // Adding method types
     method: requestType,
@@ -59,5 +63,20 @@ export async function makeApiCallWithoutBody(requestType, endpoint) {
       "Content-type": "application/json; charset=UTF-8",
       Accept: "*",
     },
+  });
+}
+
+export async function makeApiCallWithHeadersWithoutBody(
+  requestType,
+  endpoint,
+  headers
+) {
+  return fetch(`${authConstants.dataBaseServer}/${endpoint}`, {
+    // Adding method types
+    method: requestType,
+    mode: "cors",
+
+    // Adding headers to the request
+    headers: headers,
   });
 }

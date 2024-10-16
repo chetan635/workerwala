@@ -133,7 +133,6 @@ export default function OtherInformation({
 
   // Phone Number validate function
   function validatePhoneNumber(phoneNumber) {
-    console.log(phoneNumber.length);
     if (phoneNumber.length != 10) {
       return false;
     }

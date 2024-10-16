@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { makeApiCall, makeApiCallWithFormData } from "../utils/ApiCallService";
+import { makeApiCall, makeApiCallWithFormData, makeApiCallWithHeadersWithoutBody } from "../utils/ApiCallService";
 
 const AuthContext = createContext();
 
@@ -35,33 +35,34 @@ const AuthProvider = ({ children }) => {
 
   /**
    * Method to make the sign UP request for the workerwala using provided information.
-   * 
+   *
    * @param data Containing all the details of the workerwala to set it to the backend.
    */
-    const SignUpAsWorkerwala = async (workerWalaInfo) =>{
+  const SignUpAsWorkerwala = async (workerWalaInfo) => {
+    /**
+     * Create formData from received info form worker to send it to the backend.
+     */
+    const formData = new FormData();
+    formData.append(
+      "workerWalaInfoJsonString",
+      workerWalaInfo.workerWalaInfoString
+    );
+    formData.append("governmentId", workerWalaInfo.governmentId);
+    formData.append("proofOfAddress", workerWalaInfo.proofOfAddress);
+    formData.append("professionalLicense", workerWalaInfo.professionalLicense);
+    formData.append("profilePicture", workerWalaInfo.profilePicture);
 
-      /**
-       * Create formData from received info form worker to send it to the backend.
-       */
-      const formData = new FormData();
-      formData.append('workerWalaInfoJsonString', workerWalaInfo.workerWalaInfoString)
-      formData.append('governmentId', workerWalaInfo.governmentId);
-      formData.append('proofOfAddress', workerWalaInfo.proofOfAddress);
-      formData.append('professionalLicense', workerWalaInfo.professionalLicense);
-      formData.append('profilePicture',workerWalaInfo.profilePicture);
+    /**
+     * API call to the signUp service in backend.
+     */
+    const signUpWorkerwalaResponse = await makeApiCallWithFormData(
+      "POST",
+      "auth/registerWorkerWala",
+      formData
+    ).then((res) => res.json());
 
-      /**
-       * API call to the signUp service in backend.
-       */
-      const signUpWorkerwalaResponse = await makeApiCallWithFormData(
-        "POST", 
-        "auth/registerWorkerWala", 
-        formData
-      )
-      .then((res) => res.json());
-
-      return signUpWorkerwalaResponse;
-    }
+    return signUpWorkerwalaResponse;
+  };
 
   /**
    * Method to Login the user to the workerwala.
@@ -97,7 +98,7 @@ const AuthProvider = ({ children }) => {
           loginResponse.refreshToken
         );
         navigate("/");
-        return null;
+        return loginResponse;
       } else if (loginResponse.status == "failure") {
         return loginResponse;
       }
@@ -121,6 +122,40 @@ const AuthProvider = ({ children }) => {
       "_Authentication_app_react_Token",
       tokenRefreshData.accessToken
     );
+    localStorage.setItem(
+      "_Authentication_app_react_Refresh_Token",
+      refreshToken
+    );
+  };
+
+  /**
+   * Method to fectch the current user details
+   */
+  const getCurrentUser = async () => {
+    {
+      try {
+        const response = await makeApiCallWithHeadersWithoutBody(
+          "GET",
+          "user/currentUser",
+          {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user details");
+        }
+
+        const data = await response.json();
+
+        setUser(data);
+        return data;
+        // Set the user details in state
+      } catch (err) {
+        throw err; // Handle any errors
+      }
+    }
   };
 
   /**
@@ -149,12 +184,14 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        refreshToken,
         accessToken,
         user,
         loginUser,
         logoutUser,
         SignUpUser,
-        SignUpAsWorkerwala
+        SignUpAsWorkerwala,
+        getCurrentUser,
       }}
     >
       {children}
