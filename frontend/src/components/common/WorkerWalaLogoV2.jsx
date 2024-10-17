@@ -1,7 +1,8 @@
 import React from "react";
 import { Heading, Image } from "@chakra-ui/react";
 import WorkerWalaLogoImage from "../../assets/images/WorkerWala-logo-2.png";
-import "../../css/common/WorkerWalaLogo.css"
+import WorkerWalaLogoImageV2 from "../../assets/images/WorkerWala-logo-images.png";
+import "../../css/common/WorkerWalaLogo.css";
 
 export default function WorkerWalaLogo() {
   return (
@@ -14,7 +15,9 @@ export default function WorkerWalaLogo() {
         alt="WorkerWala logo"
       />{" "}
       <div className="logo-details">
-      <Heading className="logoHeading" size="lg">WorkerWala</Heading>
+        <Heading className="logoHeading" size="lg">
+          <Image height={7} src={WorkerWalaLogoImageV2}></Image>
+        </Heading>
       </div>
     </div>
   );

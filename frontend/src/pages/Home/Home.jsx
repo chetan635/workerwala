@@ -7,10 +7,11 @@ import "../../css/home/home.css";
 import IntroductionSection from "./components/IntroductionSection";
 import ServiceNavigation from "./components/ServiceNavigation";
 import { useState } from "react";
-import Loading from "../../components/common/Loading";
 import BusinessHeading from "./components/BusinessHeadings";
 import BusinessFeatures from "./components/BusinessFeatures";
 import Testimonials from "./components/Testimonials";
+import Loader from "../../components/common/Loader";
+import Contact from "./components/Contact";
 
 export default function Home() {
   const toast = useToast();
@@ -50,7 +51,7 @@ export default function Home() {
   if (loading)
     return (
       <div>
-        <Loading />
+        <Loader/>
       </div>
     );
     
@@ -68,6 +69,7 @@ export default function Home() {
         <BusinessHeading />
         <Testimonials />
         <BusinessFeatures />
+        <Contact/>
       </main>
       <footer>
         <Footer />

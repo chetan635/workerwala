@@ -2,8 +2,10 @@ import React from "react";
 import "../../../css/home/components/IntroductionSection.css";
 import { Button, Image } from "@chakra-ui/react";
 import workerFrontImage from "../../../assets/images/Worker-front-image.png";
+import { useNavigate } from "react-router-dom";
 
 export default function IntroductionSection() {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="Introduction-section">

@@ -13,6 +13,7 @@ import VerifyEmail from "./pages/Authentication/VerifyEmail";
 import EmailRedirect from "./pages/Authentication/EmailRedirect";
 import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ChangePassword from "./components/Authentication/ChangePassword";
+import UserProfile from "./pages/Profile/UserProfile"
 import UserTypeChoice from "./pages/Authentication/UserTypeChoice";
 import SignUpAsWorkerWala from "./pages/Authentication/SignUpAsWorkerWala";
 import { useEffect } from "react";
@@ -47,6 +48,7 @@ function App() {
               <Route path=":verificationToken" element={<ChangePassword />} />
             </Route>
             <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<UserProfile/>} />
             <Route element={<PrivateRoute />}>
               {/* Create private routes */}
             </Route>

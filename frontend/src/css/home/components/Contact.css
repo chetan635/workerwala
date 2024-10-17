@@ -1,0 +1,27 @@
+.contact-container {
+  background-color: #ffe9b3;
+  overflow: hidden;
+}
+
+.contact-box {
+  background-color: #212121;
+  color: white;
+  border-radius: 1rem;
+  margin: 4rem 1rem;
+  padding: 5rem 1rem;
+}
+
+.contact-description {
+  margin-top: 1rem;
+  color: gray;
+}
+
+.contact-button-group {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.contact-form-box {
+  background-color: white;
+  border-radius: 1rem;
+}
