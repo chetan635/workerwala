@@ -1,0 +1,38 @@
+[
+  {
+    "icon": "material-symbols:settings-account-box-outline",
+    "name": "Assembly"
+  },
+  {
+    "icon": "material-symbols:tools-power-drill-sharp",
+    "name": "Mounting"
+  },
+  {
+    "icon": "mdi:human-hand-truck",
+    "name": "Moving"
+  },
+  {
+    "icon": "game-icons:broom",
+    "name": "Cleaning"
+  },
+  {
+    "icon": "entypo:tree",
+    "name": "Outdoor Help"
+  },
+  {
+    "icon": "game-icons:claw-hammer",
+    "name": "Home Repairs"
+  },
+  {
+    "icon": "game-icons:paint-roller",
+    "name": "Painting"
+  },
+  {
+    "icon": "mdi:fire",
+    "name": "Trending"
+  },
+  {
+    "icon": "basil:other-1-outline",
+    "name": "Other"
+  }
+]

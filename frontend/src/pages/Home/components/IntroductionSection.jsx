@@ -2,10 +2,15 @@ import React from "react";
 import "../../../css/home/components/IntroductionSection.css";
 import { Button, Image } from "@chakra-ui/react";
 import workerFrontImage from "../../../assets/images/Worker-front-image.png";
-import { useNavigate } from "react-router-dom";
 
-export default function IntroductionSection() {
-  const navigate = useNavigate();
+export default function IntroductionSection({contactSectionRef}) {
+
+  const scrollToSection = (ref) => {
+    window.scrollTo({
+      top: ref.current.offsetTop,
+      behavior: "smooth", // For smooth scrolling
+    });
+  };
   return (
     <div>
       <div className="Introduction-section">
@@ -18,8 +23,8 @@ export default function IntroductionSection() {
           />
         </div>
         <div className="right">
-          <div className="Introduction-section-heading">
-            <h1>The easy, reliable way to take care of your home!!</h1>
+          <div data-aos="zoom-in" className="Introduction-section-heading">
+            <h1>The easy, reliable way to take care of your daily needs!!</h1>
           </div>
           <div className="Introduction-section-headingV2">
             "Whatever your needs, Workerwala connects you with skilled
@@ -28,7 +33,7 @@ export default function IntroductionSection() {
             easier."
           </div>
           <Button
-            onClick={() => navigate("/login")}
+            onClick={() => scrollToSection(contactSectionRef)}
             colorScheme="teal"
             variant="outline"
             width="15rem"

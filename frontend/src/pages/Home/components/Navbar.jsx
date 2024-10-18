@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Auth } from "../../../lib/AuthProvider.jsx";
 import UserAvatar from "./UserAvatar.jsx";
 
-export default function Navbar() {
+export default function Navbar({ onOpen, btnRef }) {
   const [isOpen, setIsOpen] = useState(false); // State to handle menu toggle
   const navigate = useNavigate();
   const auth = Auth();
@@ -45,7 +45,7 @@ export default function Navbar() {
                 Become WorkerWala
               </Button>
             </div>
-            <UserAvatar />
+            <UserAvatar onOpen={onOpen} btnRef={btnRef} />
           </>
         ) : (
           <>

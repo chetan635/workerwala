@@ -1,8 +1,9 @@
 import { Avatar, Box, Flex, keyframes } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-export default function UserAvatar() {
+export default function UserAvatar({ onOpen, btnRef }) {
   return (
-    <div className="avatar">
+    <div onClick={onOpen} ref={btnRef} className="avatar">
       <Avatar
         size="lg"
         name="Christian Nwamba"

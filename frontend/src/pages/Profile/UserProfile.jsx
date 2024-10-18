@@ -13,9 +13,6 @@ import {
   Divider,
   Input,
   Textarea,
-  Editable,
-  EditableInput,
-  EditablePreview,
   Stack,
 } from '@chakra-ui/react';
 import { EditIcon, EmailIcon, PhoneIcon, LinkIcon, InfoIcon } from '@chakra-ui/icons';

@@ -80,3 +80,22 @@ export async function makeApiCallWithHeadersWithoutBody(
     headers: headers,
   });
 }
+
+export async function makeApiCallWithHeadersWithBody(
+  requestType,
+  endpoint,
+  requestBody,
+  headers
+) {
+  return fetch(`${authConstants.dataBaseServer}/${endpoint}`, {
+    // Adding method types
+    method: requestType,
+    mode: "cors",
+
+    // request body
+    body: JSON.stringify(requestBody),
+
+    // Adding headers to the request
+    headers: headers,
+  });
+}

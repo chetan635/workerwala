@@ -16,6 +16,7 @@ import {
   InputGroup,
   InputLeftElement,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import {
   MdPhone,
@@ -26,11 +27,88 @@ import {
 } from "react-icons/md";
 import { BsGithub, BsDiscord, BsPerson } from "react-icons/bs";
 import "../../../css/home/components/Contact.css";
+import { useState } from "react";
+import { makeApiCallWithHeadersWithBody } from "../../../utils/ApiCallService";
+import { Auth } from "../../../lib/AuthProvider";
 
-export default function Contact() {
+export default function Contact({ contactSectionRef }) {
+  // Creating veriables for the form
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const toast = useToast();
+  const auth = Auth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+
+  const resetForm = () => {
+    setEmail("");
+    setName("");
+    setMessage("");
+  };
+
+  const handleContactUsFormSubmit = async () => {
+    const accessToken = auth.accessToken;
+    if (accessToken == "" || accessToken == null || accessToken == undefined) {
+      toast({
+        title: `Plese Login to contact the owner.`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+    setIsLoading(true);
+    if (email === "" || email.includes("@") == false) {
+      setIsEmailError(true);
+      toast({
+        title: `Please enter valid email address`,
+        status: "error",
+        isClosable: true,
+        onCloseComplete: () => setIsEmailError(false),
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const sendContactUsEmailResponse = await makeApiCallWithHeadersWithBody(
+      "POST",
+      "user/sendMailFromUser",
+      {
+        name: name,
+        mailId: email,
+        message: message,
+      },
+      {
+        "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${accessToken}`,
+      }
+    );
+
+    const data = await sendContactUsEmailResponse.json();
+
+    if (data.status == "success") {
+      toast({
+        title: `Mail sent scccessfully`,
+        status: "success",
+        isClosable: true,
+      });
+      setIsLoading(false);
+      resetForm();
+      return;
+    }
+    toast({
+      title: data.message,
+      status: "error",
+      isClosable: true,
+    });
+    setIsLoading(false);
+    return;
+  };
+
   return (
     <Container
-      id="contact-us"
+      ref={contactSectionRef}
       className="contact-container"
       maxW="full"
       mt={0}
@@ -129,7 +207,11 @@ export default function Contact() {
                           <InputLeftElement pointerEvents="none">
                             <BsPerson color="gray.800" />
                           </InputLeftElement>
-                          <Input type="text" size="md" />
+                          <Input
+                            onChange={(e) => setName(e.target.value)}
+                            type="text"
+                            size="md"
+                          />
                         </InputGroup>
                       </FormControl>
                       <FormControl id="email">
@@ -138,12 +220,18 @@ export default function Contact() {
                           <InputLeftElement pointerEvents="none">
                             <MdOutlineEmail color="gray.800" />
                           </InputLeftElement>
-                          <Input type="email" size="md" />
+                          <Input
+                            isInvalid={isEmailError}
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            size="md"
+                          />
                         </InputGroup>
                       </FormControl>
                       <FormControl id="message">
                         <FormLabel>Message</FormLabel>
                         <Textarea
+                          onChange={(e) => setMessage(e.target.value)}
                           borderColor="gray.300"
                           _hover={{
                             borderRadius: "gray.300",
@@ -152,7 +240,14 @@ export default function Contact() {
                         />
                       </FormControl>
                       <FormControl id="submit">
-                        <Button variant="solid" bg="#0D74FF" color="white">
+                        <Button
+                          isLoading={isLoading}
+                          onClick={() => handleContactUsFormSubmit()}
+                          variant="solid"
+                          bg="#8c19a1"
+                          _hover={{ bg: "#0D74FF" }}
+                          color="white"
+                        >
                           Send Message
                         </Button>
                       </FormControl>

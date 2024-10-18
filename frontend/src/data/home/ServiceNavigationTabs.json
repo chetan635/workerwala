@@ -1,0 +1,56 @@
+[
+    {
+      "title": "Assembly",
+      "messageItem_1": "Assemble or disassemble furniture items by unboxing, building, and any cleanup.",
+      "messageItem_2": "Now Trending: Curved sofas, computer desks, and sustainable materials.",
+      "backgroundColor": "#f4dec9"
+    },
+    {
+      "title": "Mounting",
+      "messageItem_1": "Securely mount your TV, shelves, art, mirrors, dressers, and more.",
+      "messageItem_2": "Now Trending: Gallery walls, art TVs, and wraparound bookcases.",
+      "backgroundColor": "#abbfca"
+    },
+    {
+      "title": "Moving",
+      "messageItem_1": "Moving help such as packing/unpacking, loading, and lifting heavy items.",
+      "messageItem_2": "Now Trending: Single-item moves, apartment moves, and junk removal.",
+      "backgroundColor": "#cbe2f1"
+    },
+    {
+      "title": "Cleaning",
+      "messageItem_1": "Clean your home or office; deep clean appliances and other spaces.",
+      "messageItem_2": "Now Trending: Eco-friendly products, home cleaning checklists, and cleaning hacks.",
+      "backgroundColor": "#f7edbb"
+    },
+    {
+      "title": "Outdoor Help",
+      "messageItem_1": "Outdoor help like gardening, weeding, gutter cleaning, and mowing the lawn.",
+      "messageItem_2": "Now Trending: Native plants, enhanced walkways, and outdoor lighting installation.",
+      "backgroundColor": "#e3fec1"
+    },
+    {
+      "title": "Home Repairs",
+      "messageItem_1": "Home improvements like plumbing, electrical, and appliance installation.",
+      "messageItem_2": "Now Trending: Chandeliers, brass faucets, and smart toilets.",
+      "backgroundColor": "#ede2d1"
+    },
+    {
+      "title": "Painting",
+      "messageItem_1": "Paint walls, ceilings, molding, and doors; includes prep and cleanup.",
+      "messageItem_2": "Now Trending: Color blocking, stripe details, and statement colors.",
+      "backgroundColor": "#ff9090"
+    },
+    {
+      "title": "Trending",
+      "messageItem_1": "Discover the hottest tasks that will level up your space.",
+      "messageItem_2": "Explore these trending tasks and book a skilled Tasker to enjoy the convenience and peace of mind that comes with it all!",
+      "backgroundColor": "#98abba"
+    },
+    {
+      "title": "Other",
+      "messageItem_1": "Discover Other variety of tasks for your daily needs.",
+      "messageItem_2": "Explore these trending tasks and book a skilled Tasker to enjoy the convenience and peace of mind that comes with it all!",
+      "backgroundColor": "#ffe3e5"
+    }
+  ]
