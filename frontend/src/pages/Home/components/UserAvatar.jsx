@@ -1,13 +1,12 @@
-import { Avatar, Box, Flex, keyframes } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Avatar } from "@chakra-ui/react";
 
-export default function UserAvatar({ onOpen, btnRef }) {
+export default function UserAvatar({ onOpen, btnRef, name, image }) {
   return (
     <div onClick={onOpen} ref={btnRef} className="avatar">
       <Avatar
         size="lg"
-        name="Christian Nwamba"
-        src="https://bit.ly/code-beast"
+        name={name}
+        src={image}
       />
     </div>
   );

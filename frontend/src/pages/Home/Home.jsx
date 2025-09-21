@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import { Auth } from "../../lib/AuthProvider";
 import Navbar from "./components/Navbar";

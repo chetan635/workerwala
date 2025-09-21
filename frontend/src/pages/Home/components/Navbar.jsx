@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../../css/home/components/navbar.css";
 import WorkerWalaLogo from "../../../components/common/WorkerWalaLogoV2";
-import { Button } from "@chakra-ui/react";
+import { Avatar, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Auth } from "../../../lib/AuthProvider.jsx";
@@ -45,7 +45,7 @@ export default function Navbar({ onOpen, btnRef }) {
                 Become WorkerWala
               </Button>
             </div>
-            <UserAvatar onOpen={onOpen} btnRef={btnRef} />
+            <UserAvatar onOpen={onOpen} btnRef={btnRef} image={auth.user?.image} name={auth.user?.username} />
           </>
         ) : (
           <>
